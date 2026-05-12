@@ -4,7 +4,7 @@
 
 **Quality-gated multi-tool AI orchestration.**
 
-Reference implementation that researches a Definition-of-Done before every action, validates the result against the derived criteria, and drives lifecycle stages from the score history.
+Reference implementation that researches a Definition-of-Done before every action, validates the result against the derived criteria, and drives lifecycle stages from the score history. Delivers an orthogonal quality-gate to single-agent frameworks (e.g. Hermes, LangChain).
 
 **Status**: Phases 0-7 + Cockpit UI layer + Querier lineage.
 
@@ -14,7 +14,7 @@ An opinionated pattern set for systems where multiple AI tools work in parallel 
 
 ## Why this exits?
 
-Built at a working architecture practice with ~300 active projects. We needed an agent system that learns from corrections instead of repeating mistakes, and that earns autonomy instead of being granted it."
+Built at a working architecture practice with ~300 active projects. We needed an agent system that learns from corrections instead of repeating mistakes, and that earns autonomy instead of being granted it.
 
 ## What makes this different
 
@@ -26,7 +26,7 @@ Three primitives that the established multi-agent frameworks (LangGraph, CrewAI,
 
 3. **Score-driven lifecycle stages.** Effectors promote `(a)→(b)→(c)→(d)→(e)` based on demonstrated quality (avg score over a rolling window) and demote on drift. Stages are not badges — they are earned and revoked automatically.
 
-This is **complementary** to self-evolving agents (e.g. Hermes Agent) and to LLM-based reasoning agents — not in competition with them. organism-core provides the validation, lifecycle, and observability substrate; the reasoning agent runs on top.
+Orthogonal to self-evolving agents (e.g. Hermes Agent): Hermes optimizes a single agent over time through skill generation. organism-core orchestrates multiple tools with per-action quality validation and lifecycle stages. The reasoning agent runs as an effector inside the orchestration; the orchestration enforces gates around it.
 
 Read-only tools have their own narrow lineage (`organism.query`) that skips the DoD / plan-gate / lifecycle ceremony — details in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
