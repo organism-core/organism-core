@@ -12,6 +12,10 @@ Reference implementation that researches a Definition-of-Done before every actio
 
 An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
 
+## Why this exits?
+
+Built at a working architecture practice with ~300 active projects. We needed an agent system that learns from corrections instead of repeating mistakes, and that earns autonomy instead of being granted it."
+
 ## What makes this different
 
 Three primitives that the established multi-agent frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) do **not** expose as first-class:
