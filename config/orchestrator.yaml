@@ -1,0 +1,15 @@
+# Default settings for organism.orchestrator.ActionOrchestrator.
+# Loaded via OrchestratorSettings.load(path).
+#
+# autonomous_max_revision_attempts: int >= 0
+#   Maximum revision-loop iterations when stage=AUTONOMOUS and
+#   validation fails. Each attempt:
+#   1. records a lesson via the wired LessonsAggregator
+#   2. re-derives the DoD (LessonsSource may pick up the new lesson)
+#   3. re-runs effector.act(request)
+#   4. re-validates
+#   Loop terminates on success, on max_attempts, or if no
+#   lessons_aggregator was wired. Set to 0 to disable revision
+#   (revision_pending flag still set on validation failure).
+
+autonomous_max_revision_attempts: 2

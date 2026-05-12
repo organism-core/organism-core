@@ -1,0 +1,14 @@
+# Default settings for organism.observability.EventBus.
+# Loaded via EventBusSettings.load(path).
+#
+# enabled: bool
+#   When false, publish() is a no-op. Useful for low-overhead test runs.
+#
+# handler_error_action: "continue" | "raise"
+#   "continue" — handler exceptions are swallowed; bus continues to
+#                other handlers. Production-safe default.
+#   "raise"    — handler exceptions propagate to publisher. Useful for
+#                tests and strict-debug mode.
+
+enabled: true
+handler_error_action: continue

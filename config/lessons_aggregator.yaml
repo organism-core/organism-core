@@ -1,0 +1,8 @@
+# Default settings for organism.lessons.LessonsAggregator.
+# Loaded via LessonsAggregatorSettings.load(path).
+#
+# query_max_results: int
+#   Maximum number of lessons returned per query_for_request() call.
+#   LessonsSource caps how many lesson-criteria_hints flow into one DoD.
+
+query_max_results: 10

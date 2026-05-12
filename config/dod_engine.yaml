@@ -1,0 +1,7 @@
+# Default settings for organism.dod.DoDEngine.
+# Loaded via DoDEngineSettings.load(path). Caller decides path.
+# Override threshold to tune Source-Iteration early-stop:
+#   <0.0 .. 1.0> = normal early-stop sensitivity
+#   >1.0         = effectively disable early-stop (all sources run)
+
+threshold: 0.8

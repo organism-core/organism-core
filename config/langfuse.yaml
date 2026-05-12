@@ -1,0 +1,19 @@
+# Default settings for organism.observability.LangfuseAdapter.
+# Loaded via LangfuseSettings.load(path).
+#
+# enabled: bool
+#   Default false — adapter is opt-in. Set to true after configuring
+#   endpoint_url and public_key (see below).
+#
+# endpoint_url: str
+#   Langfuse OTel endpoint. Empty by default; supply via override-yaml
+#   or environment-specific config — DO NOT commit production endpoints
+#   into the versioned config in this repo.
+#
+# public_key: str
+#   Langfuse public key. Same caveat as endpoint_url — do not commit
+#   real credentials. Use deployment-specific override files.
+
+enabled: false
+endpoint_url: ""
+public_key: ""

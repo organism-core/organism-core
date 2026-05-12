@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Whitepaper
+    url: https://github.com/organism-core/organism-core/blob/main/docs/M5_WHITEPAPER.md
+    about: Single-document Whitepaper für M5-Pattern und Architektur-Kontext
+  - name: Doc Index
+    url: https://github.com/organism-core/organism-core/blob/main/docs/README.md
+    about: Vollständige Dokumentation, Lesepfade nach Anwendungsfall
+  - name: Demo lokal laufen lassen
+    url: https://github.com/organism-core/organism-core/blob/main/docs/DEMOS.md
+    about: 3 Demo-Domains, je eine CLI — ohne Issue-Erstellung erst ausprobieren

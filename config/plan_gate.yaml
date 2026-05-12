@@ -1,0 +1,9 @@
+# Default settings for organism.plan_gate.PlanGate.
+# Loaded via PlanGateSettings.load(path). Caller decides path.
+#
+# require_decision_reason: bool
+#   When true, approve()/reject() raise ValueError if reason is empty.
+#   Recommended for production audit trails. Default false for ease of
+#   testing and demos.
+
+require_decision_reason: false

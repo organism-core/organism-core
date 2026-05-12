@@ -1,0 +1,23 @@
+# Default settings for organism.lifecycle.LifecycleManager.
+# Loaded via LifecycleSettings.load(path). Caller decides path.
+#
+# initial_stage: stage assigned to a kind on first record_outcome.
+#   One of: manual | proposed | checked | routine | autonomous
+#
+# Promotion (avg of last N outcomes >= threshold -> one stage up):
+#   promote_after_n          number of outcomes for promote check
+#   promote_score_threshold  required average score
+#
+# Demotion (avg of last N outcomes < threshold -> one stage back):
+#   demote_after_n           drift detection window
+#   demote_score_threshold   threshold under which drift triggers
+#
+# window_size: maximum outcomes kept (sliding window).
+# Must be >= max(promote_after_n, demote_after_n).
+
+initial_stage: proposed
+promote_after_n: 30
+promote_score_threshold: 0.9
+demote_after_n: 5
+demote_score_threshold: 0.7
+window_size: 50

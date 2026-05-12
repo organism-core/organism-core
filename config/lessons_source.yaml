@@ -1,0 +1,9 @@
+# Default settings for organism.dod.sources.lessons.LessonsSource.
+# Loaded via LessonsSourceSettings.load(path).
+#
+# max_confidence_delta: float [0, 1]
+#   Cap on how much LessonsSource contributes to DoD.confidence per
+#   derive() call. Prevents a flood of matching lessons from dominating
+#   the early-stop threshold.
+
+max_confidence_delta: 0.5

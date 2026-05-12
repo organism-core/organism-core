@@ -1,0 +1,7 @@
+# Default settings for organism.dod.EntityFrontmatterSource.
+# Loaded via EntityFrontmatterSettings.load(path). Caller decides path.
+# confidence_when_loaded is the confidence_delta the source contributes
+# to the running DoD when it found and parsed criteria from frontmatter.
+# Range [0.0, 1.0]. Higher = stronger trust in declared frontmatter DoDs.
+
+confidence_when_loaded: 0.5

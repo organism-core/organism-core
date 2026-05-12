@@ -1,0 +1,14 @@
+# Default settings for organism.observability.TraceStore.
+# Loaded via TraceStoreSettings.load(path). Caller decides path.
+#
+# enabled: bool
+#   When false, ActionOrchestrator skips trace recording even if a
+#   trace_store is wired. Useful for testing or low-overhead runs.
+#
+# summary_max_length: int
+#   Maximum length for truncated request/result repr() strings stored
+#   in the trace. Longer values give more forensic detail; shorter
+#   values keep YAML files readable. Set to 0 to disable summaries.
+
+enabled: true
+summary_max_length: 500
