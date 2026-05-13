@@ -28,6 +28,10 @@ class CockpitSettings(SettingsBase):
     drift_warning_band: float = 0.05
     plan_list_max_items: int = 50
     show_resolved_plans: bool = False
+    # Lesson-pile observability window — see EffectorSummaryView's
+    # lessons_recent_use_ratio. 7 days (604800 s) is the default
+    # rhythm at which the pile-up signal becomes meaningful.
+    lessons_recent_use_window_seconds: int = 604800
 
     def __post_init__(self) -> None:
         if self.payload_repr_max_length < 16:
@@ -49,4 +53,9 @@ class CockpitSettings(SettingsBase):
             raise ValueError(
                 "plan_list_max_items must be > 0, "
                 f"got {self.plan_list_max_items}"
+            )
+        if self.lessons_recent_use_window_seconds <= 0:
+            raise ValueError(
+                "lessons_recent_use_window_seconds must be > 0, "
+                f"got {self.lessons_recent_use_window_seconds}"
             )

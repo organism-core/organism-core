@@ -110,10 +110,14 @@ def test_query_missing_context_key_fails_match(tmp_path: Path):
 
 
 def test_query_returns_newest_first(tmp_path: Path):
+    import time
+
     agg = _make_aggregator(tmp_path)
-    l1 = agg.record_lesson(kind="k", observation="first")
-    l2 = agg.record_lesson(kind="k", observation="second")
-    l3 = agg.record_lesson(kind="k", observation="third")
+    agg.record_lesson(kind="k", observation="first")
+    time.sleep(0.02)  # Windows 15ms clock resolution — disambiguate timestamps
+    agg.record_lesson(kind="k", observation="second")
+    time.sleep(0.02)
+    agg.record_lesson(kind="k", observation="third")
     results = agg.query_for_request("k", context={})
     assert [l.observation for l in results] == ["third", "second", "first"]
 

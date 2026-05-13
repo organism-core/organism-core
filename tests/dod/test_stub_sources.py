@@ -89,15 +89,20 @@ def test_domain_pattern_source_default_registry_is_none():
     assert DomainPatternSource().registry is None
 
 
-def test_default_sources_returns_six_in_canonical_order(tmp_path: Path):
+def test_default_sources_returns_canonical_order(tmp_path: Path):
+    """``related_entities`` and ``domain_pattern`` each split into two
+    instances (prefix/tags, tuple/action_only) so the engine emits
+    separate provenance buckets."""
     store = EntityStore(tmp_path)
     sources = default_sources(entity_store=store)
     assert [s.name for s in sources] == [
         "entity_frontmatter",
         "lessons",
-        "related_entities",
+        "related_entities:prefix",
+        "related_entities:tags",
         "vector_search",
-        "domain_pattern",
+        "domain_pattern:tuple",
+        "domain_pattern:action_only",
         "user_clarification",
     ]
 
@@ -116,7 +121,8 @@ def test_default_sources_threads_entity_store_to_entity_dependent_sources(
 
     by_name = {s.name: s for s in sources}
     assert by_name["entity_frontmatter"].store is store
-    assert by_name["related_entities"].store is store
+    assert by_name["related_entities:prefix"].store is store
+    assert by_name["related_entities:tags"].store is store
 
 
 def test_full_six_source_pipeline_only_active_sources_in_provenance(

@@ -31,6 +31,10 @@ from organism.dod.types import (
 
 JudgeFn = Callable[[Criterion, Any, dict[str, Any]], tuple[bool, str]]
 SelfCheckFn = Callable[[Criterion, Any, dict[str, Any]], tuple[bool, str]]
+BatchJudgeFn = Callable[
+    [list[Criterion], dict[str, Any]],
+    dict[str, tuple[bool, str]],
+]
 
 _RANGE_RE = re.compile(
     r"^\s*(-?\d+(?:\.\d+)?)\s*\.\.\s*(-?\d+(?:\.\d+)?)\s*$"
@@ -48,12 +52,22 @@ _OPS = {
 class EvaluationContext:
     """Optional callables and per-validation context.
 
-    Both callables are pure (criterion, actual, result_dict) -> (bool, reason).
-    `result_dict` is the full action result so a callable can inspect siblings.
+    Per-criterion callables (``llm_judge`` and ``self_check``) are pure
+    ``(criterion, actual, result_dict) -> (bool, reason)``. ``result_dict``
+    is the full action result so a callable can inspect siblings.
+
+    ``batch_llm_judge`` is the optional batched form: when wired AND a
+    DoD contains two or more ``evaluator=llm_judge`` criteria, the
+    validator collects them into one call instead of N separate calls.
+    Signature: ``(criteria, result_dict) -> {criterion.name: (bool, reason)}``.
+    Saves N-fold LLM cost and latency for DoDs with multiple qualitative
+    criteria. Falls back to per-criterion ``llm_judge`` if not provided
+    or if only one criterion exists.
     """
 
     llm_judge: JudgeFn | None = None
     self_check: SelfCheckFn | None = None
+    batch_llm_judge: BatchJudgeFn | None = None
 
 
 class Evaluator(Protocol):
