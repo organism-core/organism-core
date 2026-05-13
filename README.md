@@ -10,7 +10,7 @@ Reference implementation that researches a Definition-of-Done before every actio
 
 The M5 pattern in organism-core predates and converges with Anthropic's Outcomes feature (announced May 2026). Both designs arrive independently at the same architecture — DoD-research, separator-grader, iteration-loop. We treat this convergence as validation that the pattern is right, and organism-core remains the provider-agnostic open-source implementation
 
-**Status**: Phases 0-7 + Cockpit UI layer + Querier lineage.
+**Status**: Phases 0-8 + Cockpit UI layer + Querier lineage + production performance levers (batched judge, parallel sources, lesson-pile sensor). 899 tests green.
 
 ## What is this?
 
@@ -22,10 +22,11 @@ Built at a working architecture practice with ~300 active projects. We needed an
 
 ## What makes this different
 
-Do you like Anthropic Outcomes? Organism-core has more sources, HITL- aproval-layer, live-cycle stages and yeah: open-source/ self-hostable! 
+Do you like Anthropic Outcomes? Organism-core has more sources, HITL- aproval-layer, live-cycle stages and yeah: open-source/ self-hostable! You can paste an Anthropic-Outcomes Markdown rubric straight into a `MarkdownRubricSource` and feed it into the same engine.
+
 Three primitives that the established multi-agent frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) do **not** expose as first-class:
 
-1. **DoD-Recherche as pre-action research.** Before every action with external effect, the system researches the Definition of Done from six prioritized sources (entity profile, lessons, related entities, vector search, domain patterns, user clarification). Validates the result against the derived criteria after `act()`. Detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md).
+1. **DoD-Recherche as pre-action research.** Before every action with external effect, the system researches the Definition of Done from six prioritized semantic sources (entity profile, lessons, related entities, vector search, domain patterns, user clarification). `related_entities` and `domain_pattern` each ship as two source instances (prefix/tags, tuple/action-only) so the engine emits separate provenance buckets — eight source instances in the default pipeline. Validates the result against the derived criteria after `act()`. Detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md).
 
 2. **Cross-domain genericity as executable spec.** A CI test asserts that three demo domains (for example architecture, tax, CFO) produce identical pipeline counts. If a contribution accidentally makes the framework domain-specific, the test breaks. No other framework publishes this kind of automated genericity guard.
 
@@ -64,8 +65,9 @@ pipeline counts** — cross-domain verification as executable spec.
 
 `full_recherche` is a fourth demo with a different focus: it shows
 the **six-source hierarchy** of the DoD-Recherche engine (M5) in full
-bloom, with minimal consumer-facing implementations of the three stub
-sources (RelatedEntities / VectorSearch / DomainPattern) as templates.
+bloom, with consumer-facing wiring of the three external-backend
+sources (RelatedEntities / VectorSearch / DomainPattern) — now real
+implementations, no longer stubs.
 
 `cockpit_demo` shows the headless UI Wesen — the Cockpit hovers over
 the orchestrator and stores and emits typed render schemas (DoDView /
@@ -136,8 +138,13 @@ template for your own domain.
 | 7 | ✅ | M5-patch code: evaluator switch + lesson loop + revision strategies + operative settings |
 | UI | ✅ | Cockpit Wesen + render schemas + UIEventStream + CockpitBuilder |
 | Q | ✅ | Querier lineage (read-only): protocol + runner + QueryTrace + Cockpit integration |
-
-Per-phase detail in [`MEMORY.md`](MEMORY.md) (working journal, German).
+| 8A | ✅ | Outcomes-alignment: `REVISION_OUTCOME_FAILED` + Anthropic-bridge framing |
+| 8B | ✅ | `MarkdownRubricSource` — Anthropic-Outcomes rubric-format interop |
+| 8C | ✅ | `CrossDomainLessonsSource` — cross-kind lesson transfer (Dreaming-equivalent) |
+| P1 | ✅ | Batched `llm_judge` — N→1 LLM call reduction per validation |
+| P2 | ✅ | Parallel source dispatch — `max(latencies)` instead of `sum` |
+| P3-mini | ✅ | Lesson-pile observability sensor on `Cockpit.summary()` |
+| S | ✅ | Three former stub sources now real (clustering / pattern-registry / vector-search adapter); `default_sources()` returns 8 instances in canonical order |
 
 ## Test
 
@@ -145,7 +152,7 @@ Per-phase detail in [`MEMORY.md`](MEMORY.md) (working journal, German).
 pytest tests/
 ```
 
-712 tests green. Two separation-test guards:
+899 tests green. Two separation-test guards:
 - `tests/examples/test_cross_demo.py` — Action side: all three domain
   demos produce identical pipeline counts.
 - `tests/examples/test_cross_demo_queries.py` — Query side: all three
