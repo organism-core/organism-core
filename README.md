@@ -6,6 +6,10 @@
 
 Reference implementation that researches a Definition-of-Done before every action, validates the result against the derived criteria, and drives lifecycle stages from the score history. Delivers an orthogonal quality-gate to single-agent frameworks (e.g. Hermes, LangChain).
 
+## Hint
+
+The M5 pattern in organism-core predates and converges with Anthropic's Outcomes feature (announced May 2026). Both designs arrive independently at the same architecture — DoD-research, separator-grader, iteration-loop. We treat this convergence as validation that the pattern is right, and organism-core remains the provider-agnostic open-source implementation
+
 **Status**: Phases 0-7 + Cockpit UI layer + Querier lineage.
 
 ## What is this?
