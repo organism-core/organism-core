@@ -6,7 +6,7 @@
 
 Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchiert, das Ergebnis gegen die abgeleiteten Kriterien validiert und Lifecycle-Stages aus dem Score-Verlauf treibt.
 
-**Status**: Phase 0-7 + Cockpit-UI-Layer + Querier-Lineage
+**Status**: Phasen 0-8 + Cockpit-UI-Layer + Querier-Lineage + Production-Performance-Hebel (batched Judge, parallele Sources, Lesson-Pile-Sensor). 899 Tests grün.
 
 ## Was ist das?
 
@@ -16,7 +16,9 @@ Ein opinionated Pattern-Set für Systeme, in denen mehrere KI-Tools parallel arb
 
 Drei Primitive, die in den etablierten Multi-Agent-Frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) **nicht** als First-Class-Konzepte vorkommen:
 
-1. **DoD-Recherche als Pre-Action-Research.** Vor jeder Aktion mit Außenwirkung recherchiert das System die Definition of Done aus sechs priorisierten Quellen (Entity-Profile, Lessons, verwandte Entities, Vector-Search, Domain-Patterns, User-Klärung). Validiert das Ergebnis gegen die abgeleiteten Kriterien nach `act()`. Detail im [`docs/M5_WHITEPAPER.de.md`](docs/M5_WHITEPAPER.de.md).
+1. **DoD-Recherche als Pre-Action-Research.** Vor jeder Aktion mit Außenwirkung recherchiert das System die Definition of Done aus sechs priorisierten semantischen Quellen (Entity-Profile, Lessons, verwandte Entities, Vector-Search, Domain-Patterns, User-Klärung). `related_entities` und `domain_pattern` shippen jeweils als zwei Source-Instanzen (Präfix/Tags, Tuple/Action-Only), damit die Engine getrennte Provenance-Buckets schreibt — acht Source-Instanzen in der Default-Pipeline. Validiert das Ergebnis gegen die abgeleiteten Kriterien nach `act()`. Detail im [`docs/M5_WHITEPAPER.de.md`](docs/M5_WHITEPAPER.de.md).
+
+   Anthropic-Outcomes-Rubriken (Markdown-Format) können direkt über `MarkdownRubricSource` in die Engine eingespeist werden.
 
 2. **Cross-Domain-Genericity als executable spec.** Ein CI-Test stellt sicher, dass drei Demo-Domains (z.B. Architektur, Steuer, CFO) identische Pipeline-Counts produzieren. Wenn ein Beitrag das Framework versehentlich domänen-spezifisch macht, bricht der Test. Kein anderes Framework publiziert solch einen automatisierten Genericity-Wächter.
 
@@ -50,7 +52,7 @@ pytest tests/
 
 Die drei Domain-Demos drucken einen kompletten Pipeline-Walk (Setup → Seeding → 4 Schritte: PROPOSED-Flow, CHECKED-Promotion, AUTONOMOUS-Revision, HITL-Lesson) auf stdout. Alle drei produzieren **identische Pipeline-Counts** — Cross-Domain-Verifikation als executable spec.
 
-`full_recherche` ist ein vierter Demo-Modus mit anderem Fokus: er zeigt die **6-Source-Hierarchie** der DoD-Recherche-Engine (M5) im Vollausbau, mit synthetischen Implementierungen der drei Stub-Quellen (RelatedEntities / VectorSearch / DomainPattern) als Vorlage für Konsumenten.
+`full_recherche` ist ein vierter Demo-Modus mit anderem Fokus: er zeigt die **6-Source-Hierarchie** der DoD-Recherche-Engine (M5) im Vollausbau, mit Konsumenten-Verdrahtung der drei externen-Backend-Quellen (RelatedEntities / VectorSearch / DomainPattern) — jetzt echte Implementierungen, keine Stubs mehr.
 
 `cockpit_demo` zeigt das headless UI-Wesen — der Cockpit hovert über Orchestrator und Stores und liefert getypte Render-Schemas (DoDView / PlanApprovalView / DriftView / QueryTraceView) an beliebige UI-Frameworks.
 
@@ -112,8 +114,13 @@ Jede Domain-Demo ist self-contained (~300 Zeilen) — als Vorlage zum Kopieren f
 | 7 | ✅ | M5-Patch-Code: evaluator-Switch + Lesson-Loop + Revisions-Strategien + Operative Settings |
 | UI | ✅ | Cockpit-Wesen + Render-Schemas + UIEventStream + CockpitBuilder |
 | Q | ✅ | Querier-Lineage (read-only): Protocol + Runner + QueryTrace + Cockpit-Integration |
-
-Detail-Status in [`MEMORY.md`](MEMORY.md).
+| 8A | ✅ | Outcomes-Alignment: `REVISION_OUTCOME_FAILED` + Anthropic-Brücken-Framing |
+| 8B | ✅ | `MarkdownRubricSource` — Anthropic-Outcomes-Rubric-Format-Interop |
+| 8C | ✅ | `CrossDomainLessonsSource` — Cross-Kind-Lesson-Transfer (Dreaming-Äquivalent) |
+| P1 | ✅ | Batched `llm_judge` — N→1 LLM-Call-Reduktion pro Validierung |
+| P2 | ✅ | Parallele Source-Dispatch — `max(latencies)` statt `sum` |
+| P3-mini | ✅ | Lesson-Pile-Observability-Sensor auf `Cockpit.summary()` |
+| S | ✅ | Drei ehemalige Stub-Quellen jetzt echt (Clustering / Pattern-Registry / Vector-Search-Adapter); `default_sources()` liefert 8 Instanzen in kanonischer Reihenfolge |
 
 ## Test
 
@@ -121,7 +128,7 @@ Detail-Status in [`MEMORY.md`](MEMORY.md).
 pytest tests/
 ```
 
-712 Tests grün. Zwei Trenn-Test-Wächter:
+899 Tests grün. Zwei Trenn-Test-Wächter:
 - `tests/examples/test_cross_demo.py` — Action-Side: alle 3 Domain-Demos produzieren identische Pipeline-Counts
 - `tests/examples/test_cross_demo_queries.py` — Query-Side: alle 3 Domain-Querier produzieren identische Trace-Counts
 
