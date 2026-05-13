@@ -404,7 +404,16 @@ class DriftView:
 
 @dataclass
 class EffectorSummaryView:
-    """High-level row per ``kind`` for dashboard listings."""
+    """High-level row per ``kind`` for dashboard listings.
+
+    The trailing ``lessons_age_days_p95`` + ``lessons_recent_use_ratio``
+    + ``lessons_never_used_count`` fields are the lesson-pile
+    observability sensor: watch ``lessons_count`` rising while
+    ``lessons_age_days_p95`` rises and ``lessons_recent_use_ratio``
+    falls — the signal that lessons are piling up without being picked
+    up by queries (the failure mode a future distillation worker would
+    address).
+    """
 
     kind: str
     current_stage: str
@@ -413,6 +422,9 @@ class EffectorSummaryView:
     pending_plans: int
     lessons_count: int
     drift_warning: bool
+    lessons_age_days_p95: float | None = None
+    lessons_recent_use_ratio: float = 0.0
+    lessons_never_used_count: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

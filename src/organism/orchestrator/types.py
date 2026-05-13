@@ -23,6 +23,13 @@ REVISION_OUTCOME_COMPLETED = "completed"
 REVISION_OUTCOME_EXHAUSTED = "exhausted"
 REVISION_OUTCOME_ESCALATED = "escalated"
 REVISION_OUTCOME_ROLLED_BACK = "rolled_back"
+# Reserved for DoDs that are themselves incoherent with the request —
+# e.g. clarification requirements that re-emerge during the revision
+# loop, or contradictory criteria. Distinct from `exhausted` (out of
+# attempts on an otherwise coherent rubric). Mirrors the distinction
+# Anthropic's Outcomes feature makes between `max_iterations_reached`
+# and `failed`.
+REVISION_OUTCOME_FAILED = "failed"
 
 
 @dataclass

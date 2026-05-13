@@ -159,7 +159,13 @@ class Cockpit:
     # ---------- Effector summary
 
     def summary(self) -> list[EffectorSummaryView]:
-        """One row per known ``kind`` — high-level dashboard listing."""
+        """One row per known ``kind`` — high-level dashboard listing.
+
+        Lesson-pile observability fields (age_p95 + recent_use_ratio
+        + never_used_count) are populated per kind via
+        ``LessonsAggregator.usage_stats``. The window for "recent" is
+        ``CockpitSettings.lessons_recent_use_window_seconds``.
+        """
         rows: list[EffectorSummaryView] = []
         for kind in self.lifecycle.store.list_kinds():
             state = self.lifecycle.get_state(kind)
@@ -174,6 +180,10 @@ class Cockpit:
             )
             lessons = len(self.lessons.store.list(kind=kind))
             drift = self.drift(kind)
+            usage = self.lessons.usage_stats(
+                kind=kind,
+                recent_window_seconds=self.settings.lessons_recent_use_window_seconds,
+            )
             rows.append(
                 EffectorSummaryView(
                     kind=kind,
@@ -183,6 +193,9 @@ class Cockpit:
                     pending_plans=pending,
                     lessons_count=lessons,
                     drift_warning=drift.drift_warning,
+                    lessons_age_days_p95=usage["age_days_p95"],
+                    lessons_recent_use_ratio=usage["recent_use_ratio"],
+                    lessons_never_used_count=usage["never_used_count"],
                 )
             )
         rows.sort(key=lambda r: (not r.drift_warning, r.kind))

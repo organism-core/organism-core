@@ -36,6 +36,7 @@ from organism.orchestrator.types import (
     REVISION_OUTCOME_COMPLETED,
     REVISION_OUTCOME_ESCALATED,
     REVISION_OUTCOME_EXHAUSTED,
+    REVISION_OUTCOME_FAILED,
     REVISION_OUTCOME_NONE,
     REVISION_OUTCOME_ROLLED_BACK,
     ActionResult,
@@ -363,6 +364,7 @@ class ActionOrchestrator:
             not in (
                 REVISION_OUTCOME_ESCALATED,
                 REVISION_OUTCOME_ROLLED_BACK,
+                REVISION_OUTCOME_FAILED,
             )
         )
 
@@ -396,6 +398,23 @@ class ActionOrchestrator:
                 reason=(
                     "DoD validation failed; revision strategy "
                     "rollback_and_log rolled the action back."
+                ),
+            )
+
+        if revision_outcome == REVISION_OUTCOME_FAILED:
+            return ActionResult(
+                status=ActionStatus.NEEDS_CLARIFICATION,
+                dod=dod,
+                result=result,
+                validation=validation,
+                transition=transition,
+                revision_attempts=revision_attempts,
+                revision_outcome=revision_outcome,
+                warnings=warnings,
+                reason=(
+                    "DoD re-derived during revision is incoherent "
+                    "(clarification needed); rubric does not match "
+                    "the request."
                 ),
             )
 
@@ -547,6 +566,13 @@ class ActionOrchestrator:
                 context=ctx,
             )
             dod = self.engine.derive(request, ctx)
+            if dod.clarification_needed:
+                # DoD re-derivation surfaced a fresh clarification need —
+                # the rubric is incoherent with the request. Mirrors
+                # Anthropic Outcomes' `failed` result (distinct from
+                # `max_iterations_reached`).
+                revision_outcome = REVISION_OUTCOME_FAILED
+                break
             result = effector.act(request)
             validation = self.validator.validate(dod, result)
             revision_attempts += 1
