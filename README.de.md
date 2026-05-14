@@ -12,6 +12,8 @@ Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchi
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — sechs semantische Quellen, acht Source-Instanzen, um die Aktion" width="640">
 </p>
 
+> **Collaborators gesucht.** organism-core ist in Alpha — die Architektur steht, die Test-Coverage trägt, was jetzt fehlt sind reale Konsumenten. Wer agentische Systeme baut, eine Domäne hat in der das Pattern getestet werden soll, oder das Skelett gegen einen Production-Workload härten will — gerne Issue eröffnen, PR schicken oder an `ertel@me-arch.de` schreiben.
+
 ## Was ist das?
 
 Ein opinionated Pattern-Set für Systeme, in denen mehrere KI-Tools parallel arbeiten und ihre Ergebnisse in einen zentralen Wahrheits-Speicher konsolidieren. Das Skelett liefert die generischen Bausteine (DoD-Engine, Lifecycle-State-Machine, Plan-Gate, Lessons-Aggregator, Trace-Store, EventBus, Cockpit). Konsumenten implementieren konkrete Effektoren und Querier für ihre Domäne.
