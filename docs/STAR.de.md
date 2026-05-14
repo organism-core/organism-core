@@ -33,18 +33,20 @@ Eine **gut definierte DoD mit hoher Definition-Confidence** kann nach der Aktion
 
 ## Der Stern — Hub-and-Spoke
 
-Sechs Quellen liegen radial um die Aktion. Die Aktion ist das Zentrum, jede Quelle ein Strahl:
+Sechs semantische Quellen liegen radial um die Aktion. Die Aktion ist das Zentrum, jede Quelle ein Strahl:
 
 ```
                      (1) EntityFrontmatter
                               │
         (2) Lessons ────┐     │     ┌──── (3) RelatedEntities
-                        │     ▼     │
-                       ┌─────────────┐
+                        │     ▼     │           ├─ :prefix
+                       ┌─────────────┐          └─ :tags
                        │  [ ACTION ] │
                        └─────────────┘
                         │     ▲     │
-        (5) DomainPattern ────┘     └──── (4) VectorSearch
+   (5) DomainPattern ───┘     │     └──── (4) VectorSearch
+        ├─ :tuple             │
+        └─ :action_only       │
                               │
                               ▼
                   (6) UserClarification
@@ -53,16 +55,22 @@ Sechs Quellen liegen radial um die Aktion. Die Aktion ist das Zentrum, jede Quel
 
 Der Name „STAR" ist eine Form-Metapher — kein spezifischer Algorithmus aus der Literatur. Die radiale Struktur ist die zentrale Eigenschaft: jede Quelle ist gleichberechtigt _als Beitrag_, aber nicht gleichberechtigt _in der Reihenfolge_. Engine evaluiert in Priority-Reihenfolge `1→6` und stoppt früh, sobald DoD klar ist.
 
+Zwei der sechs Quellen — `RelatedEntitiesSource` und `DomainPatternSource` — shippen in der Default-Pipeline als **je zwei Source-Instanzen**, damit die Engine getrennte Provenance-Buckets pro Lookup-Heuristik schreibt (`:prefix`/`:tags`, `:tuple`/`:action_only`). Semantisch weiterhin sechs Quellen; mechanisch acht Source-Instanzen. `default_sources()` liefert acht in kanonischer Reihenfolge.
+
 ## Die sechs Quellen — Hierarchie
 
-| # | Quelle | Was sie beiträgt | Phase 2 |
+| # | Quelle | Was sie beiträgt | Status |
 |---|---|---|---|
 | 1 | EntityFrontmatterSource | Deklarierte DoD im Frontmatter der referenzierten Entity | voll |
-| 2 | LessonsSource | Was wurde früher als „fertig" akzeptiert (Tool-Erfahrung) | Stub (Phase 4) |
-| 3 | RelatedEntitiesSource | Cross-Reference: ähnliche Entities mit DoD-Hinweisen | Stub (Phase 5) |
-| 4 | VectorSearchSource | Semantische Suche in Wissensbasis (Normen, Standards) | Stub (Phase 4) |
-| 5 | DomainPatternSource | Domain-Standards und Master-Patterns | Stub (Phase 4) |
+| 2 | LessonsSource | Was wurde früher als „fertig" akzeptiert (Tool-Erfahrung) | voll |
+| 3 | RelatedEntitiesSource | Cross-Reference: Geschwister-Entities via Präfix-Cluster oder Tag-Overlap | voll (zwei Instanzen) |
+| 4 | VectorSearchSource | Semantische Suche via duck-typed chromadb-Client (chromadb keine Dependency) | voll |
+| 5 | DomainPatternSource | Domain-spezifische kanonische Kriterien aus Konsumenten-`PatternRegistry` | voll (zwei Instanzen) |
 | 6 | UserClarificationSource | Terminale Rückfrage wenn 1-5 nicht reichen | voll |
+
+Optionale Zusatz-Quellen (nicht in `default_sources()`):
+- `MarkdownRubricSource` — parst Anthropic-Outcomes-Markdown-Rubrics direkt zu Kriterien. Drop-in-Interop.
+- `CrossDomainLessonsSource` — re-injiziert Lessons aus anderen `kind`s wenn `match_keys`-Context überlappt. Reduzierter Weight; Cross-Kind-Transfer ist sekundäres Signal.
 
 Die Reihenfolge ist domänen-unabhängig begründet:
 - **Spezifisch+konkret zuerst** (Entity > Related > Vector > Pattern): wer eine Antwort in der konkreten Entity findet, fragt nicht beim Vector-Store.
@@ -159,6 +167,53 @@ derive(request, context):
 - `clarification_needed empty` allein reicht NICHT — wenn Confidence niedrig, weiter
 
 Andernfalls können nachfolgende Quellen die Klärung füllen oder die Confidence erhöhen. Default-Threshold: `0.8`, per Effector überschreibbar.
+
+## Separator-Pattern — Validator getrennt vom Effektor
+
+`DoDValidator` ist eine eigene Komponente, nicht im Effektor inlined. Er sieht nur das `act()`-Result, nicht die Implementation. Bei `evaluator=llm_judge` ist sogar der Bewertungs-Callable eine separate Inferenz — also auch das LLM-Reasoning ist vom Effektor-Reasoning entkoppelt.
+
+Das ist dieselbe Trust-Architektur, die Anthropic für ihr Outcomes-Feature als „separate context window" beschreibt: ein Grader, der die Implementations-Entscheidungen nicht kennt, kann seine Bewertung nicht daran anpassen. Diese Trennung ist die Architektur-Begründung dafür, warum Validator-Logik nicht im Effektor-Code lebt — und warum `llm_judge` einen injizierbaren Callable nimmt, statt das LLM-Routing in den Validator zu hardcoden.
+
+## Parallele Source-Dispatch — Latenz-Halbierung in Production
+
+Default-Engine läuft die sechs Quellen seriell. Bei realen Konsumenten mit echten Source-Implementierungen (Vector-DB-Call ~200 ms, Pattern-Registry-API ~300 ms, Related-Entities-Scan ~100 ms) addieren sich Latenzen: ~700 ms allein für die Pre-Action-Recherche.
+
+Optional `DoDEngine(parallel=True)` dispatcht alle Sources gleichzeitig über `ThreadPoolExecutor`:
+
+```python
+engine = DoDEngine(sources=[...], parallel=True, max_workers=6)
+```
+
+Latenz wird `max(source_latencies)` statt `sum(source_latencies)` — typischerweise 2-3× schneller in Production-Konfigurationen.
+
+Trade-offs (Engine teilt sie dem Konsumenten mit, ohne sie zu verbergen):
+- **Early-Exit ist deaktiviert** — alle Sources laufen, auch wenn frühe Sources schon die Confidence-Schwelle reichen würden. Bei billigen Sources fällt das nicht ins Gewicht; bei sehr teuren Sources besser durch andere Methode (Source-Filterung vorher).
+- **Source-Level-Dedup ist suppressed** — Sources die gegen `current.criteria` dedupt haben (`LessonsSource`, `CrossDomainLessonsSource`, `MarkdownRubricSource`, ...) sehen leere DoD, contributen ihre vollen Listen. Engine dedupt nachträglich auf `criterion.name`, **first-source-wins** in der ursprünglichen `sources`-Reihenfolge.
+- **Sources müssen thread-safe sein** — alle eingebauten sind read-only auf ihren Stores. Custom Sources dürfen keinen mutable Per-Call-State außerhalb `contribute` halten.
+
+Merge-Ordnung bleibt deterministisch via `sources`-Reihenfolge — schnellere Source kann früher fertig sein, erscheint im finalen DoD aber trotzdem an der Position der Konfigurations-Liste.
+
+Source-Exceptions werden isoliert: ein crashender Source-Call wird zu `SourceContribution(evidence={"error": "<type>: <msg>"})`, andere Sources laufen normal weiter.
+
+## Batched llm_judge — N-fache Kosten-Reduktion
+
+DoDs mit mehreren `evaluator=llm_judge`-Kriterien zahlen im Default-Pfad einen LLM-Call pro Kriterium. In Production-Workloads ist das der größte einzelne Kostentreiber.
+
+Wenn Konsument einen `batch_llm_judge`-Callable auf `EvaluationContext` setzt, sammelt der Validator alle qualifizierten llm_judge-Kriterien einer DoD und dispatcht **einen batched Call** statt N separater. Signatur:
+
+```python
+def batch_judge(criteria: list[Criterion], result: dict) -> dict[str, tuple[bool, str]]:
+    """Returns name → (satisfied, reason) für jedes Kriterium im Batch."""
+```
+
+Eligibility-Regeln (Validator entscheidet zur Laufzeit):
+- evaluator == `llm_judge` (rule + self_check bleiben per-criterion)
+- ≥ 2 berechtigte Kriterien (1 Kriterium → keine Batching-Ersparnis)
+- Kriterium-Key existiert in result (missing-key fällt sauber per-criterion durch)
+
+Bei Batch-Exception oder malformed Result: jedes batched-Kriterium scheitert mit klarer Reason (`batch evaluator error: ...`), nie silent. Per-criterion-Fallback via `llm_judge`-Callable bleibt verfügbar.
+
+Performance-Versprechen: DoD mit 5 llm_judge-Kriterien → 1 LLM-Call statt 5.
 
 ## Comparator-Semantik (Validator)
 
@@ -277,10 +332,32 @@ Alle drei Domains: identische Engine, identischer Validator, gleiche Konvention.
 ### Phase 4+ ergänzt
 
 - LessonsSource: Anbindung an Lesson-Aggregator (Phase 4)
-- VectorSearchSource: Anbindung an Vector-Store-Client (Phase 4)
-- DomainPatternSource: Anbindung an Pattern-Registry (Phase 4)
-- RelatedEntitiesSource: Similarity-Funktion über `EntityStore` (Phase 5)
+- LessonsSource: Anbindung an Lesson-Aggregator (Phase 4)
 - Provenance-Schema in OTel-GenAI-Konvertierung (Phase 4)
+
+### Drei External-Backend-Quellen echt gemacht (Stub→Real)
+
+Was bis Phase 5 Stubs waren, sind jetzt voll-implementiert. Jede Quelle lehnt sich an ein injizierbares Backend, damit `organism-core` dependency-frei bleibt:
+
+- **RelatedEntitiesSource** — Präfix-Cluster-Heuristik (`343_alpha` findet `343_beta`) und Tag-Overlap-Heuristik (Frontmatter-`tags`-Schnittmenge). Shipped als **zwei Source-Instanzen**, jede mit eigenem Provenance-Bucket (`related_entities:prefix`, `related_entities:tags`). Re-injizierte Kriterien tragen reduzierten Weight via `cross_entity_weight_factor` (default 0.5).
+- **DomainPatternSource** — `PatternRegistry` keyed nach `(action_type, entity_type)`. Zwei Source-Instanzen (`domain_pattern:tuple`, `domain_pattern:action_only`) für getrennte Provenance-Tracks. `organism-core` liefert nur die Registry-Schnittstelle; das Domain-Wissen lebt im Konsumenten-Setup.
+- **VectorSearchSource** — Duck-typed chromadb-shaped Adapter (chromadb ist **keine** Dependency). Generischer `default_query_builder` priorisiert universelle Textfelder (`text`/`description`/`name`/`title`/`summary`) plus `entity_id`/`kind` aus Context. V1 trägt ein `similar_cases_present`-Criterion plus Confidence proportional zur Trefferzahl (capped) bei; aggregierte Treffer-Metadaten sind V2.
+
+`default_sources()` liefert daher 8 Source-Instanzen in kanonischer Reihenfolge, nicht 6. Die semantische Anzahl bleibt 6 Quellen; das Zwei-Instanzen-Pattern ist rein ein Provenance-Routing-Detail.
+
+### Phase 8 — Outcomes-Interop + Cross-Domain-Transfer
+
+- **REVISION_OUTCOME_FAILED (8A)** — terminales Outcome, abgegrenzt von EXHAUSTED. Raised wenn DoD-Re-Derivation im Revision-Loop frische `clarification_needed` surfaced — Rubrik selbst inkohärent zur Anfrage, nicht nur Versuche aufgebraucht. Spiegelt Anthropic Outcomes' `failed` vs `max_iterations_reached`-Unterscheidung.
+- **MarkdownRubricSource (8B)** — parst Anthropic-Outcomes-Markdown-Rubric-Format (`## section` + `- bullet` + optional `[weight=N]`) zu `Criterion`-Objekten. Drop-in-Interop für Konsumenten, die bereits Rubriken in diesem Format pflegen. Bullets erhalten default `evaluator=llm_judge`.
+- **CrossDomainLessonsSource (8C)** — zieht Lessons aus *anderen* `kind`s wenn `match_keys`-Context-Dimensionen überlappen. Gleicher Engine, inline beim DoD-Derive. Reduzierter Weight-Factor (`cross_kind_weight_factor`, default 0.3) — Cross-Kind-Transfer ist sekundärer Hinweis, nie entscheidend.
+
+### Lesson-Pile-Observability-Sensor (mini-P3, implementiert)
+
+Bevor ein Lesson-Distillation-Worker spekulativ gebaut wird, das Symptom sichtbar machen und auf das Auftreten in Production warten:
+
+`LessonsAggregator.usage_stats()` liefert `age_days_p95`, `recent_use_ratio`, `never_used_count` pro Kind. `Cockpit.summary()` zeigt sie auf `EffectorSummaryView`. Window konfigurierbar via `CockpitSettings.lessons_recent_use_window_seconds` (default 7d). `_last_used` ist in-memory — Sensor, kein Audit-Log.
+
+Trigger-Heuristik für Distillation-Worker-Bau: steigender `lessons_count` plus steigender `age_days_p95` plus fallender `recent_use_ratio` — das Pile-Up-Signal. Bauen erst dann, wenn der Sensor das in echter Production meldet.
 
 ### Wann DoD-Recherche verzichtbar ist
 
