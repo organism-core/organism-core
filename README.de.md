@@ -28,6 +28,63 @@ Das ist **komplementär** zu self-evolving Agents (z.B. Hermes Agent) und zu LLM
 
 Read-only Tools haben eine eigene schmale Lineage (`organism.query`), die DoD/Plan-Gate/Lifecycle-Zeremonie überspringt — Details im [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
+## Neuerungen
+
+Der letzte Push hebt organism-core vom „Skelett-MVP" zum „produktions-tauglichen Kern" — drei Gruppen von Ergänzungen:
+
+**Phase 8 — Outcomes-Interop und Cross-Domain-Transfer**
+- `REVISION_OUTCOME_FAILED` (8A) — terminales Outcome, semantisch
+  unterschieden von „Versuche erschöpft". Tritt auf wenn die Rubrik
+  selbst inkohärent zur Anfrage wird — spiegelt Anthropic Outcomes'
+  `failed` vs `max_iterations_reached`-Unterscheidung.
+- `MarkdownRubricSource` (8B) — parst das Anthropic-Outcomes-Markdown-
+  Rubric-Format direkt zu `Criterion`-Objekten. Drop-in-Interop für
+  Konsumenten, die bereits Rubriken in diesem Format pflegen.
+- `CrossDomainLessonsSource` (8C) — zieht Lessons aus *anderen* Kinds
+  wenn der Request-Kontext genug Match-Keys teilt. organism-core's
+  Analog zu Anthropic's Dreaming, inline beim DoD-Derive. Reduzierter
+  Weight-Factor auf Cross-Kind-Transfer (Trust-Modell: Same-Kind-
+  Lessons sind primäres Signal).
+
+**Production-Performance-Hebel**
+- **Batched `llm_judge` (P1)** — `DoDValidator` dispatcht N Kriterien
+  mit `evaluator=llm_judge` an einen einzigen
+  `EvaluationContext.batch_llm_judge`-Callable wenn ≥2 geeignete
+  Kriterien existieren. Realistisch 4-5× Kosten+Latenz-Reduktion bei
+  rubric-getriebenen DoDs.
+- **Parallele Source-Dispatch (P2)** — `DoDEngine(parallel=True)`
+  dispatcht alle Sources parallel. Latenz wird
+  `max(source_latencies)` statt `sum`. Engine dedupt nachträglich;
+  Early-Exit deaktiviert im Parallel-Modus.
+- **Lesson-Pile-Observability-Sensor (mini-P3)** —
+  `LessonsAggregator.usage_stats()` liefert `age_days_p95`,
+  `recent_use_ratio`, `never_used_count`. Pro Kind sichtbar auf
+  `Cockpit.summary()`. Baue einen Distillation-Worker erst dann, wenn
+  dieser Sensor in echter Production ein Pile-Up-Signal meldet.
+
+**Drei ehemalige Stub-Quellen jetzt echt**
+- `RelatedEntitiesSource` — Präfix-Cluster-Heuristik (`343_alpha`
+  findet `343_beta`) plus Tag-Overlap-Heuristik (Frontmatter
+  `tags`-Schnittmenge). Jede Heuristik shipped als eigene Source-
+  Instanz mit eigenem Provenance-Bucket
+  (`related_entities:prefix`, `related_entities:tags`).
+- `DomainPatternSource` — `PatternRegistry` keyed nach
+  `(action_type, entity_type)`. Zwei Source-Instanzen
+  (`domain_pattern:tuple`, `domain_pattern:action_only`) für getrennte
+  Provenance-Tracks. organism-core liefert nur die Registry-
+  Schnittstelle; das Domain-Wissen lebt im Konsumenten-Setup.
+- `VectorSearchSource` — Duck-typed chromadb-kompatibler Adapter
+  (chromadb ist **keine** Dependency). Generischer
+  `default_query_builder` priorisiert universelle Textfelder
+  (text/description/name/title/summary) plus `entity_id`/`kind`. V1
+  trägt ein `similar_cases_present`-Criterion plus Confidence
+  proportional zur Trefferzahl bei; aggregierte Treffer-Metadaten
+  sind V2.
+
+`default_sources()` liefert jetzt 8 Source-Instanzen in kanonischer
+Reihenfolge (vorher 6) wegen des Zwei-Instanzen-Patterns. 899 Tests
+grün.
+
 ## Quick Start
 
 ```bash
