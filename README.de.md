@@ -8,6 +8,10 @@ Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchi
 
 **Status**: Phasen 0-8 + Cockpit-UI-Layer + Querier-Lineage + Production-Performance-Hebel (batched Judge, parallele Sources, Lesson-Pile-Sensor). 899 Tests grün.
 
+<p align="center">
+  <img src="docs/img/organism_core_star.svg" alt="organism-core Star — sechs semantische Quellen, acht Source-Instanzen, um die Aktion" width="640">
+</p>
+
 ## Was ist das?
 
 Ein opinionated Pattern-Set für Systeme, in denen mehrere KI-Tools parallel arbeiten und ihre Ergebnisse in einen zentralen Wahrheits-Speicher konsolidieren. Das Skelett liefert die generischen Bausteine (DoD-Engine, Lifecycle-State-Machine, Plan-Gate, Lessons-Aggregator, Trace-Store, EventBus, Cockpit). Konsumenten implementieren konkrete Effektoren und Querier für ihre Domäne.
