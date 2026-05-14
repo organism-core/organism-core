@@ -16,6 +16,8 @@ The M5 pattern in organism-core predates and converges with Anthropic's Outcomes
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
 </p>
 
+> **Looking for collaborators.** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett against a production workload — open an issue, send a PR, or write to `ertel@me-arch.de`.
+
 ## What is this?
 
 An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
