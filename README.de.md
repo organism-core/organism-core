@@ -32,6 +32,8 @@ Drei Primitive, die in den etablierten Multi-Agent-Frameworks (LangGraph, CrewAI
 
 Das ist **komplementär** zu self-evolving Agents (z.B. Hermes Agent) und zu LLM-basierten Reasoning-Agents — nicht in Konkurrenz dazu. organism-core liefert die Validierungs-, Lifecycle- und Observability-Schicht; der Reasoning-Agent läuft darauf.
 
+**Substrat für strukturiertes Selbst-Lernen, kein selbst-modifizierender Agent.** organism-core liefert das tragende Gerüst — DoD-Kriterien als Bewertungsraster, Revisions-Strategien als Entscheidungsverzweigungen, Lessons und Traces als persistentes Gedächtnis, Lifecycle-Stages als Performance-Tracking. Die Patterns selbst bleiben menschen-kuratiert; nur die Inhalte darin wachsen (Lessons akkumulieren, Kriterien schärfen sich, Stages werden verdient). Forschung wie das Hyperagent-Paper (Meta + UBC, 2026) zeigt, dass emergente Selbst-Modifikation möglich ist; wir bleiben bewusst eine Schicht darunter: ein stabiles Substrat, auf dem menschen-kuratierte Verbesserung vorhersagbar und auditierbar passiert.
+
 Read-only Tools haben eine eigene schmale Lineage (`organism.query`), die DoD/Plan-Gate/Lifecycle-Zeremonie überspringt — Details im [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Neuerungen

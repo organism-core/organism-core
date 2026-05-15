@@ -40,6 +40,8 @@ Three primitives that the established multi-agent frameworks (LangGraph, CrewAI,
 
 Orthogonal to self-evolving agents (e.g. Hermes Agent): Hermes optimizes a single agent over time through skill generation. organism-core orchestrates multiple tools with per-action quality validation and lifecycle stages. The reasoning agent runs as an effector inside the orchestration; the orchestration enforces gates around it.
 
+**Substrate for structured self-improvement, not a self-modifying agent.** organism-core provides the durable scaffolding — DoD criteria as evaluation rasters, revision strategies as decision branches, lessons and traces as persistent memory, lifecycle stages as performance tracking. The patterns themselves stay human-curated; only the content inside them grows (lessons accumulate, criteria sharpen, stages get earned). Research like the Hyperagent paper (Meta + UBC, 2026) shows emergent self-modification is possible; we deliberately stay one layer below: a stable substrate on which human-curated improvement happens predictably and auditably.
+
 Read-only tools have their own narrow lineage (`organism.query`) that skips the DoD / plan-gate / lifecycle ceremony — details in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Recent additions
