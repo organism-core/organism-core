@@ -18,6 +18,26 @@ Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchi
 
 Ein opinionated Pattern-Set für Systeme, in denen mehrere KI-Tools parallel arbeiten und ihre Ergebnisse in einen zentralen Wahrheits-Speicher konsolidieren. Das Skelett liefert die generischen Bausteine (DoD-Engine, Lifecycle-State-Machine, Plan-Gate, Lessons-Aggregator, Trace-Store, EventBus, Cockpit). Konsumenten implementieren konkrete Effektoren und Querier für ihre Domäne.
 
+## So funktioniert es — in einfacher Sprache
+
+Stell dir vor, du willst, dass eine KI für dich automatisch eine Aufgabe erledigt — etwa einen Grundriss auswerten, eine Eingangsmail beantworten, eine Steuererklärung prüfen. Bevor die KI losläuft, fragt organism-core eine andere Frage: **Was heißt „fertig" eigentlich konkret — bei diesem Projekt, in diesem Kontext, in diesem Moment?**
+
+Die Antwort sucht das Skelett an sechs Stellen, von der konkreten zur allgemeinen:
+
+1. **Im Projekt-Dossier selbst** — steht dort schon, was diese Aufgabe leisten soll? (Beispiel: „Die Auswertung muss mindestens 12 Räume zeigen.")
+2. **In früheren Erfahrungen** — was haben wir bei ähnlichen Aufgaben gelernt? (Beispiel: „Letztes Mal hat die KI Türen vergessen — wir achten jetzt auf vollständige Türlisten.")
+3. **In verwandten Projekten** — wie wurde diese Aufgabe in ähnlichen Fällen erledigt?
+4. **In einer semantischen Suche** über die vorhandene Wissensbasis — gibt es ähnlich gelagerte Vorgänge im Archiv?
+5. **In Domänen-Mustern** — was sind die üblichen Anforderungen bei dieser Art von Aufgabe?
+6. **Beim Menschen** — wenn alles oben nicht ausreicht, kommt eine Rückfrage.
+
+Aus diesen sechs Antworten setzt das Skelett eine konkrete Liste zusammen — die **Definition of Done**. Erst dann startet die KI ihre eigentliche Arbeit. Am Ende prüft das Skelett: Erfüllt das Ergebnis diese Liste?
+
+- Wenn ja: das Ergebnis wird abgelegt, der zuständige Tool-Pfad verdient sich ein Stück Vertrauen.
+- Wenn nein: das Skelett entscheidet automatisch nach festgelegten Regeln — noch ein Versuch mit anderen Parametern, eine Eskalation an einen Menschen, oder ein sauberer Rückzug.
+
+Über die Zeit sammelt das System Erfahrungen aus Erfolgen und Misserfolgen, schickt sie beim nächsten Mal als Quelle 2 wieder mit ein, und Tools, die wiederholt sauber arbeiten, steigen automatisch in eine höhere Vertrauens-Stufe auf. Tools, die zu oft danebenliegen, werden zurückgestuft. Das ist der **Quality Gate**, der organism-core von anderen Multi-Agent-Frameworks unterscheidet — die KI muss sich ihre Autonomie verdienen, sie bekommt sie nicht geschenkt.
+
 ## Was macht das anders
 
 Drei Primitive, die in den etablierten Multi-Agent-Frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) **nicht** als First-Class-Konzepte vorkommen:

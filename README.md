@@ -26,6 +26,26 @@ An opinionated pattern set for systems where multiple AI tools work in parallel 
 
 Built at a working architecture practice with ~300 active projects. We needed an agent system that learns from corrections instead of repeating mistakes, and that earns autonomy instead of being granted it.
 
+## How it works — in plain language
+
+Imagine you want an AI to handle a task for you automatically — say, evaluate a floor plan, answer an incoming email, check a tax return. Before the AI starts working, organism-core asks a different question: **What does "done" actually mean here — for this project, in this context, at this moment?**
+
+The framework looks for the answer in six places, moving from concrete to general:
+
+1. **In the project's own profile** — does it already say what this task should deliver? (Example: "the evaluation must show at least 12 rooms.")
+2. **In past experience** — what did we learn from similar tasks? (Example: "last time the AI missed doors — we now check for complete door lists.")
+3. **In related projects** — how was this task handled in similar cases?
+4. **In a semantic search** over the available knowledge base — are there comparable cases in the archive?
+5. **In domain patterns** — what are the usual requirements for this kind of task?
+6. **With the human** — when the five above don't give enough, a clarifying question goes back to the user.
+
+From those six answers the framework assembles a concrete list — the **Definition of Done**. Only then does the AI start its actual work. At the end the framework checks: does the result satisfy that list?
+
+- If yes: the result is stored, and the responsible tool path earns a piece of trust.
+- If no: the framework decides automatically along configured rules — another attempt with different parameters, an escalation to a human, or a clean rollback.
+
+Over time the system collects experience from successes and failures, feeds them back in as source #2 the next time, and tools that work cleanly repeatedly rise into a higher trust stage automatically. Tools that miss too often get demoted. That is the **quality gate** that sets organism-core apart from other multi-agent frameworks — the AI has to earn its autonomy, it does not get it for free.
+
 ## What makes this different
 
 Do you like Anthropic Outcomes? Organism-core has more sources, HITL- aproval-layer, live-cycle stages and yeah: open-source/ self-hostable! You can paste an Anthropic-Outcomes Markdown rubric straight into a `MarkdownRubricSource` and feed it into the same engine.
