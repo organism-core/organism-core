@@ -26,7 +26,7 @@ An opinionated pattern set for systems where multiple AI tools work in parallel 
 
 Built at a working architecture practice with ~300 active projects. We needed an agent system that learns from corrections instead of repeating mistakes, and that earns autonomy instead of being granted it.
 
-## How it works — in plain language
+## How it works
 
 Imagine you want an AI to handle a task for you automatically — say, evaluate a floor plan, answer an incoming email, check a tax return. Before the AI starts working, organism-core asks a different question: **What does "done" actually mean here — for this project, in this context, at this moment?**
 
