@@ -12,7 +12,11 @@ Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchi
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — sechs semantische Quellen, acht Source-Instanzen, um die Aktion" width="640">
 </p>
 
-> **Collaborators gesucht.** organism-core ist in Alpha — die Architektur steht, die Test-Coverage trägt, was jetzt fehlt sind reale Konsumenten. Wer agentische Systeme baut, eine Domäne hat in der das Pattern getestet werden soll, oder das Skelett gegen einen Production-Workload härten will — gerne Issue eröffnen, PR schicken oder an `ertel@me-arch.de` schreiben.
+> **Collaborators und Design-Partner gesucht.**
+>
+> **Code-Collaborators:** organism-core ist in Alpha — die Architektur steht, die Test-Coverage trägt, was jetzt fehlt sind reale Konsumenten. Wer agentische Systeme baut, eine Domäne hat in der das Pattern getestet werden soll, oder das Skelett gegen einen Production-Workload härten will — gerne Issue eröffnen, PR schicken oder an `ertel@me-arch.de` schreiben.
+>
+> **Design-Partner (Hosted SaaS, Private Beta):** Wir bauen eine Hosted-SaaS-Schicht auf organism-core auf, derzeit in Private Beta mit unserem ersten Production-Konsumenten (Architekturbüro). Dieses öffentliche Repository zeigt einen früheren Stand — intern stehen wir kurz vor Production-Reife. Die SaaS orchestriert *über* deinen vorhandenen Tools (Mail, Tickets, CAD, Rechnungen, Dokumente …), kein Ersatz dafür. Wenn dein Team über mehrere Tools koordiniert und du Lust auf einen 30-min Discovery-Call zu HITL-quality-gated Agent-Workflows auf deinem Stack hast: `ertel@me-arch.de`.
 
 ## Was ist das?
 

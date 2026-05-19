@@ -16,7 +16,11 @@ The M5 pattern in organism-core predates and converges with Anthropic's Outcomes
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
 </p>
 
-> **Looking for collaborators.** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett against a production workload — open an issue, send a PR, or write to `ertel@me-arch.de`.
+> **Looking for collaborators and design partners.**
+>
+> **Code collaborators:** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett against a production workload — open an issue, send a PR, or write to `ertel@me-arch.de`.
+>
+> **Design partners (hosted SaaS, private beta):** We're building a hosted SaaS layer on top of organism-core, in private beta with our first production consumer (architecture practice). This public repository is an earlier snapshot — internally we're close to production. The SaaS orchestrates *over* your existing tools (Mail, Tickets, CAD, Invoicing, Docs, …), not a replacement for them. If your team coordinates across multiple tools and you'd discuss a 30-min discovery call about HITL-quality-gated agent workflows on your stack: `ertel@me-arch.de`.
 
 ## What is this?
 
