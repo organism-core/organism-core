@@ -1,7 +1,7 @@
 # Contributor License Agreement
 
 **Project:** organism-core
-**Maintainer:** Michael Ertel — `ertel@me-arch.de`
+**Maintainer:** Michael Ertel — `info@brachia.dev`
 **Version:** 1.0 (2026-05-12)
 
 Thank you for your interest in contributing to organism-core (the
@@ -140,5 +140,5 @@ Germany**, without regard to its conflict-of-laws provisions.
 ---
 
 *If anything in this agreement is unclear, open an issue or email
-`ertel@me-arch.de` before submitting. We would rather answer
+`info@brachia.dev` before submitting. We would rather answer
 questions than reject a Contribution.*

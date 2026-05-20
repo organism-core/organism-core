@@ -14,9 +14,9 @@ Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchi
 
 > **Collaborators und Design-Partner gesucht.**
 >
-> **Code-Collaborators:** organism-core ist in Alpha — die Architektur steht, die Test-Coverage trägt, was jetzt fehlt sind reale Konsumenten. Wer agentische Systeme baut, eine Domäne hat in der das Pattern getestet werden soll, oder das Skelett gegen einen Production-Workload härten will — gerne Issue eröffnen, PR schicken oder an `ertel@me-arch.de` schreiben.
+> **Code-Collaborators:** organism-core ist in Alpha — die Architektur steht, die Test-Coverage trägt, was jetzt fehlt sind reale Konsumenten. Wer agentische Systeme baut, eine Domäne hat in der das Pattern getestet werden soll, oder das Skelett gegen einen Production-Workload härten will — gerne Issue eröffnen, PR schicken oder an `info@brachia.dev` schreiben.
 >
-> **Design-Partner (Hosted SaaS, Private Beta):** Wir bauen eine Hosted-SaaS-Schicht auf organism-core auf, derzeit in Private Beta mit unserem ersten Production-Konsumenten (Architekturbüro). Dieses öffentliche Repository zeigt einen früheren Stand — intern stehen wir kurz vor Production-Reife. Die SaaS orchestriert *über* deinen vorhandenen Tools (Mail, Tickets, CAD, Rechnungen, Dokumente …), kein Ersatz dafür. Wenn dein Team über mehrere Tools koordiniert und du Lust auf einen 30-min Discovery-Call zu HITL-quality-gated Agent-Workflows auf deinem Stack hast: `ertel@me-arch.de`.
+> **Design-Partner (Hosted SaaS, Private Beta):** Wir bauen eine Hosted-SaaS-Schicht auf organism-core auf, derzeit in Private Beta mit unserem ersten Production-Konsumenten (Architekturbüro). Dieses öffentliche Repository zeigt einen früheren Stand — intern stehen wir kurz vor Production-Reife. Die SaaS orchestriert *über* deinen vorhandenen Tools (Mail, Tickets, CAD, Rechnungen, Dokumente …), kein Ersatz dafür. Wenn dein Team über mehrere Tools koordiniert und du Lust auf einen 30-min Discovery-Call zu HITL-quality-gated Agent-Workflows auf deinem Stack hast: `info@brachia.dev`.
 
 ## Was ist das?
 
