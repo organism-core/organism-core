@@ -6,7 +6,28 @@
 
 Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchiert, das Ergebnis gegen die abgeleiteten Kriterien validiert und Lifecycle-Stages aus dem Score-Verlauf treibt.
 
-**Status**: Phasen 0-8 + Cockpit-UI-Layer + Querier-Lineage + Production-Performance-Hebel (batched Judge, parallele Sources, Lesson-Pile-Sensor). 899 Tests grün.
+## Industrie-Konvergenz — Mai 2026
+
+In einer einzigen Woche im Mai 2026 haben drei Top-Tier-Akteure Designs veröffentlicht, die auf dasselbe Meta-Problem zielen: das monolithische Request-Response-Modell passt nicht zur Realität laufender User-Aufmerksamkeit und kontinuierlicher Agent-Aktion.
+
+- **Anthropic Outcomes** (Mitte Mai 2026) — explizite Erfolgskriterien vor der Aktion, Validierung danach. Architektonisch verwandt mit organism-cores M5-DoD-Recherche-Pattern.
+- **TML Interaction Models** (Thinking Machines Lab, Research-Preview 12. Mai) — „listen, speak, see, pause" im Netz selbst trainiert; full-duplex; ~0,4 s Antwortzeit. Löst Turn-Taking auf der **Architektur-Schicht**.
+- **Google Android Halo** (19. Mai, I/O) — persistenter Agent-Status-Indikator in der Android-Statusbar, ab Android 17 in diesem Jahr. Macht laufende Agent-Aktion sichtbar auf der **OS-/UI-Schicht**.
+
+organism-core adressiert dasselbe Meta-Problem auf einer dritten Ebene — der **Protokoll-Schicht**. Plan-Gate + Lifecycle + DoD-Engine + das reservierte Reentrance-Pattern (siehe [`docs/REENTRANCE.md`](docs/REENTRANCE.md)) liefern Mid-Execution-Human-in-the-Loop mit auditierbarem Trail über mehrere Tools.
+
+Die vier Ansätze konkurrieren nicht, sie liegen übereinander:
+
+| Schicht | Beispiel | Was es löst |
+|---|---|---|
+| Provider | Anthropic Outcomes | Erfolgskriterien als first-class API |
+| Architektur (Modell) | TML Interaction Models | bidirektionale Aufmerksamkeit mitten in der Äußerung |
+| **Protokoll (Orchestrierung)** | **organism-core** | **Mid-Execution-HITL mit Audit-Trail** |
+| UI (OS / App) | Android Halo | persistente Agent-Status-Sichtbarkeit |
+
+organism-core ist die provider-agnostische Open-Source-Implementierung auf der Protokoll-Schicht.
+
+**Status**: Phasen 0-8 + Cockpit-UI-Layer + Querier-Lineage + Production-Performance-Hebel (batched Judge, parallele Sources, Lesson-Pile-Sensor). Reentrance-Pattern reserviert (Memo committed, Implementierung wartet auf Real-World-Trigger). 899 Tests grün.
 
 <p align="center">
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — sechs semantische Quellen, acht Source-Instanzen, um die Aktion" width="640">

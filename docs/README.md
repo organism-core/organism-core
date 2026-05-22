@@ -18,6 +18,7 @@ internal cross-references.
 | [`LIFECYCLE.md`](LIFECYCLE.md) | Plan gate + lifecycle state machine — stages `(a)→(e)`, transitions, ActionOrchestrator | ~270 lines |
 | [`OBSERVABILITY.md`](OBSERVABILITY.md) | Trace + lessons + EventBus + OTel — full observation layer | ~330 lines |
 | [`DEMOS.md`](DEMOS.md) | Cross-domain validation — three demo domains with identical pipeline counts | ~290 lines |
+| [`REENTRANCE.md`](REENTRANCE.md) | Reserved pattern (trigger 0) — human consultation mid-execution via parent-child plans; positions organism-core on the protocol layer of the May 2026 convergence wave (Anthropic Outcomes + TML + Halo) | ~240 lines |
 
 ## Architecture concepts
 

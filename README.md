@@ -6,11 +6,28 @@
 
 Reference implementation that researches a Definition-of-Done before every action, validates the result against the derived criteria, and drives lifecycle stages from the score history. Delivers an orthogonal quality-gate to single-agent frameworks (e.g. Hermes, LangChain).
 
-## Hint
+## Industry convergence — May 2026
 
-The M5 pattern in organism-core predates and converges with Anthropic's Outcomes feature (announced May 2026). Both designs arrive independently at the same architecture — DoD-research, separator-grader, iteration-loop. We treat this convergence as validation that the pattern is right, and organism-core remains the provider-agnostic open-source implementation
+Within a single week in May 2026, three top-tier actors published designs that converge on the same meta-problem: the monolithic request-response cycle does not fit the reality of ongoing user attention and continuous agent action.
 
-**Status**: Phases 0-8 + Cockpit UI layer + Querier lineage + production performance levers (batched judge, parallel sources, lesson-pile sensor). 899 tests green.
+- **Anthropic Outcomes** (mid-May 2026) — explicit success criteria before action, validation after. Architecturally adjacent to organism-core's M5 DoD-research pattern.
+- **TML Interaction Models** (Thinking Machines Lab, May 12 research preview) — "listen, speak, see, pause" trained into a single network; full-duplex; ~0.4 s response latency. Solves turn-taking at the **architecture layer**.
+- **Google Android Halo** (May 19, I/O) — persistent agent-state indicator in the Android status bar, shipping with Android 17 later this year. Surfaces ongoing agent action at the **OS / UI layer**.
+
+organism-core targets the same meta-problem at a third level — the **protocol layer**. Plan-Gate + Lifecycle + DoD-Engine + the reserved Reentrance pattern (see [`docs/REENTRANCE.md`](docs/REENTRANCE.md)) deliver mid-execution human-in-the-loop with an auditable trail across multiple tools.
+
+The four approaches do not compete; they layer:
+
+| Layer | Example | What it solves |
+|---|---|---|
+| Provider | Anthropic Outcomes | success criteria as first-class API |
+| Architecture (model) | TML Interaction Models | mid-utterance bidirectional attention |
+| **Protocol (orchestration)** | **organism-core** | **mid-execution HITL with audit trail** |
+| UI (OS / app) | Android Halo | persistent agent-state visibility |
+
+organism-core is the provider-agnostic open-source implementation at the protocol layer.
+
+**Status**: Phases 0-8 + Cockpit UI layer + Querier lineage + production performance levers (batched judge, parallel sources, lesson-pile sensor). Reentrance pattern reserved (memo committed, implementation gated on real-world trigger). 899 tests green.
 
 <p align="center">
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
