@@ -145,7 +145,7 @@ grün.
 ## Quick Start
 
 ```bash
-git clone git@github.com:organism-core/organism-core.git
+git clone https://github.com/organism-core/organism-core.git
 cd organism-core
 pip install -e ".[dev]"
 
