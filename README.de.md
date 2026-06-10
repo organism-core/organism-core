@@ -2,6 +2,10 @@
 
 # organism-core
 
+[![CI](https://github.com/organism-core/organism-core/actions/workflows/ci.yml/badge.svg)](https://github.com/organism-core/organism-core/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
+
 **Quality-gated multi-tool AI orchestration.**
 
 Referenz-Implementierung, die vor jeder Aktion eine Definition-of-Done recherchiert, das Ergebnis gegen die abgeleiteten Kriterien validiert und Lifecycle-Stages aus dem Score-Verlauf treibt.
