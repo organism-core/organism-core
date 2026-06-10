@@ -4,6 +4,20 @@ The Skelett is being prepared for two-language publication: **English
 as primary** (default for GitHub readers) with **German parallel
 versions** preserved for the original native-text record.
 
+## Mini-glossary — project vocabulary
+
+A handful of German-origin terms are kept untranslated on purpose —
+they are the project's own vocabulary, not leftover translation gaps.
+Each is glossed at first use in `README.md`:
+
+| Term | Gloss | Where it lives |
+|---|---|---|
+| **Skelett** | German for "skeleton" — the generic core that consumers build on | repo-wide |
+| **Wesen** | German ≈ "entity/being" — the headless Cockpit UI layer that hovers over orchestrator and stores | `src/organism/ui/` |
+| **DoD-Recherche** | pre-action Definition-of-Done research across six prioritized sources | `src/organism/dod/` |
+| **Trenn-Test** | the separation test: "would the same logic make sense in a tax practice?" — enforced by CI cross-demo guards | `CONTRIBUTING.md`, `tests/examples/` |
+| **Steckbrief** | German for "profile sheet" — the per-entity YAML+Markdown profile file (`ENTITY_PROFILE_FILENAME_stbr`) | `src/organism/memory/` |
+
 ## File-naming convention
 
 Side-by-side translations use a language-suffix:

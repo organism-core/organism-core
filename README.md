@@ -39,13 +39,15 @@ organism-core is the provider-agnostic open-source implementation at the protoco
 
 > **Looking for collaborators and design partners.**
 >
-> **Code collaborators:** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett against a production workload — open an issue, send a PR, or write to `info@brachia.dev`.
+> **Code collaborators:** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett (German for "skeleton" — the generic core) against a production workload — open an issue, send a PR, or write to `info@brachia.dev`.
 >
 > **Design partners (hosted SaaS, private beta):** We're building a hosted SaaS layer on top of organism-core, in private beta with our first production consumer (architecture practice). This public repository is an earlier snapshot — internally we're close to production. The SaaS orchestrates *over* your existing tools (Mail, Tickets, CAD, Invoicing, Docs, …), not a replacement for them. If your team coordinates across multiple tools and you'd discuss a 30-min discovery call about HITL-quality-gated agent workflows on your stack: `info@brachia.dev`.
 
 ## What is this?
 
 An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
+
+A few German-origin terms are kept on purpose as project vocabulary (Skelett, Wesen, DoD-Recherche) — see the [mini-glossary](docs/TRANSLATION_GUIDE.md#mini-glossary--project-vocabulary).
 
 ## Why this exists?
 
@@ -77,7 +79,7 @@ Do you like Anthropic Outcomes? Organism-core has more sources, HITL- aproval-la
 
 Three primitives that the established multi-agent frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) do **not** expose as first-class:
 
-1. **DoD-Recherche as pre-action research.** Before every action with external effect, the system researches the Definition of Done from six prioritized semantic sources (entity profile, lessons, related entities, vector search, domain patterns, user clarification). `related_entities` and `domain_pattern` each ship as two source instances (prefix/tags, tuple/action-only) so the engine emits separate provenance buckets — eight source instances in the default pipeline. Validates the result against the derived criteria after `act()`. Detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md).
+1. **DoD-Recherche (pre-action Definition-of-Done research).** Before every action with external effect, the system researches the Definition of Done from six prioritized semantic sources (entity profile, lessons, related entities, vector search, domain patterns, user clarification). `related_entities` and `domain_pattern` each ship as two source instances (prefix/tags, tuple/action-only) so the engine emits separate provenance buckets — eight source instances in the default pipeline. Validates the result against the derived criteria after `act()`. Detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md).
 
 2. **Cross-domain genericity as executable spec.** A CI test asserts that three demo domains (for example architecture, tax, CFO) produce identical pipeline counts. If a contribution accidentally makes the framework domain-specific, the test breaks. No other framework publishes this kind of automated genericity guard.
 
@@ -213,8 +215,9 @@ bloom, with consumer-facing wiring of the three external-backend
 sources (RelatedEntities / VectorSearch / DomainPattern) — now real
 implementations, no longer stubs.
 
-`cockpit_demo` shows the headless UI Wesen — the Cockpit hovers over
-the orchestrator and stores and emits typed render schemas (DoDView /
+`cockpit_demo` shows the Cockpit Wesen (German "Wesen" ≈
+"entity/being" — the headless UI layer): it hovers over the
+orchestrator and stores and emits typed render schemas (DoDView /
 PlanApprovalView / DriftView / QueryTraceView) for any UI framework.
 
 ## Define your own effector
