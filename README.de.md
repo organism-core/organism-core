@@ -31,7 +31,7 @@ Die vier Ansätze konkurrieren nicht, sie liegen übereinander:
 
 organism-core ist die provider-agnostische Open-Source-Implementierung auf der Protokoll-Schicht.
 
-**Status**: Phasen 0-8 + Cockpit-UI-Layer + Querier-Lineage + Production-Performance-Hebel (batched Judge, parallele Sources, Lesson-Pile-Sensor). Reentrance-Pattern reserviert (Memo committed, Implementierung wartet auf Real-World-Trigger). 899 Tests grün.
+**Status**: Feature-vollständige Referenz-Implementierung, pre-1.0. Details im [Phasenstand](#phasenstand). 899 Tests grün.
 
 <p align="center">
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — sechs semantische Quellen, acht Source-Instanzen, um die Aktion" width="640">

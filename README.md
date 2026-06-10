@@ -31,7 +31,7 @@ The four approaches do not compete; they layer:
 
 organism-core is the provider-agnostic open-source implementation at the protocol layer.
 
-**Status**: Phases 0-8 + Cockpit UI layer + Querier lineage + production performance levers (batched judge, parallel sources, lesson-pile sensor). Reentrance pattern reserved (memo committed, implementation gated on real-world trigger). 899 tests green.
+**Status**: Feature-complete reference implementation, pre-1.0. See [Phase status](#phase-status) for detail. 899 tests green.
 
 <p align="center">
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
