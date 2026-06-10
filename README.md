@@ -37,7 +37,9 @@ organism-core is the provider-agnostic open-source implementation at the protoco
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
 </p>
 
-> organism-core is a **finished reference pattern set** — self-hostable, Apache 2.0, maintained in preservation mode. A hosted SaaS layer built on it runs in private beta with our first production consumer; the SaaS orchestrates *over* your existing tools (mail, tickets, CAD, invoicing, docs, …), not as a replacement for them. Contact: `info@brachia.dev`.
+> organism-core is a **finished reference pattern set** — self-hostable, Apache 2.0, maintained in preservation mode.
+>
+> **organism-core Cloud** *(in evaluation)* — hosted approval gate & audit reports, EU-hosted (GDPR-first), designed for EU AI Act Art. 14 evidence. Join the waitlist at [brachia.dev](https://brachia.dev) · `info@brachia.dev`.
 
 ## What is this?
 
