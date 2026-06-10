@@ -19,6 +19,9 @@ internal cross-references.
 | [`OBSERVABILITY.md`](OBSERVABILITY.md) | Trace + lessons + EventBus + OTel — full observation layer | ~330 lines |
 | [`DEMOS.md`](DEMOS.md) | Cross-domain validation — three demo domains with identical pipeline counts | ~290 lines |
 | [`REENTRANCE.md`](REENTRANCE.md) | Reserved pattern (trigger 0) — human consultation mid-execution via parent-child plans; positions organism-core on the protocol layer of the May 2026 convergence wave (Anthropic Outcomes + TML + Halo) | ~240 lines |
+| [`PRODUCTION_DEFAULT.md`](PRODUCTION_DEFAULT.md) | Adoption lesson — explicit Plan/HITL/Dispatch is the production default; the autonomous reflex arc stays a research track | ~100 lines |
+| [`MCP_DESIGN.md`](MCP_DESIGN.md) | MCP audit (no MCP code in the skeleton) + binding stateless-by-design constraints for any future adapter, aligned with the 2026-07-28 RC | ~80 lines |
+| [`RECEIPTED_TRANSFER.md`](RECEIPTED_TRANSFER.md) | Receipted-transfer pattern — six contract elements for auditable data hand-offs between semi-autonomous tools, with an empirical five-class failure taxonomy | ~150 lines |
 
 ## Architecture concepts
 
@@ -68,12 +71,9 @@ chapter reading paths.
 
 - Code under [`../src/organism/`](../src/organism/) module by module
 - Tests in [`../tests/`](../tests/) as executable spec
-- [`../MEMORY.md`](../MEMORY.md) (German working journal) for phase
-  status and architectural decisions
 
 ## See also
 
 - [`../README.md`](../README.md) — repo entry with quick start
 - [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — contribution and
   separation-test guidance
-- [`../MEMORY.md`](../MEMORY.md) — living project journal (German)

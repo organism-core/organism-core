@@ -2,9 +2,13 @@
 
 # organism-core
 
-**Quality-gated multi-tool AI orchestration.**
+[![CI](https://github.com/organism-core/organism-core/actions/workflows/ci.yml/badge.svg)](https://github.com/organism-core/organism-core/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 
-Reference implementation that researches a Definition-of-Done before every action, validates the result against the derived criteria, and drives lifecycle stages from the score history. Delivers an orthogonal quality-gate to single-agent frameworks (e.g. Hermes, LangChain).
+**The Advanced Agentic Harness — quality-gated multi-tool AI orchestration.**
+
+Reference implementation of a pattern set for safe multi-tool agent systems: researches a Definition-of-Done before every action, validates the result against the derived criteria, drives per-action-type autonomy from the score history — and revokes it automatically on drift. In three words: **safety, cross-arm learning, robust harness design.**
 
 ## Industry convergence — May 2026
 
@@ -27,21 +31,21 @@ The four approaches do not compete; they layer:
 
 organism-core is the provider-agnostic open-source implementation at the protocol layer.
 
-**Status**: Phases 0-8 + Cockpit UI layer + Querier lineage + production performance levers (batched judge, parallel sources, lesson-pile sensor). Reentrance pattern reserved (memo committed, implementation gated on real-world trigger). 899 tests green.
+**Status**: Feature-complete reference implementation, pre-1.0. See [Phase status](#phase-status) for detail. 899 tests green.
 
 <p align="center">
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
 </p>
 
-> **Looking for collaborators and design partners.**
+> organism-core is a **finished reference pattern set** — self-hostable, Apache 2.0, maintained in preservation mode.
 >
-> **Code collaborators:** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett against a production workload — open an issue, send a PR, or write to `info@brachia.dev`.
->
-> **Design partners (hosted SaaS, private beta):** We're building a hosted SaaS layer on top of organism-core, in private beta with our first production consumer (architecture practice). This public repository is an earlier snapshot — internally we're close to production. The SaaS orchestrates *over* your existing tools (Mail, Tickets, CAD, Invoicing, Docs, …), not a replacement for them. If your team coordinates across multiple tools and you'd discuss a 30-min discovery call about HITL-quality-gated agent workflows on your stack: `info@brachia.dev`.
+> **organism-core Cloud** *(in evaluation)* — hosted approval gate & audit reports, EU-hosted (GDPR-first), designed for EU AI Act Art. 14 evidence. Join the waitlist at [brachia.dev](https://brachia.dev) · `info@brachia.dev`.
 
 ## What is this?
 
-An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
+An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett (German for "skeleton" — the generic core) ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
+
+A few German-origin terms are kept on purpose as project vocabulary (Skelett, Wesen, DoD-Recherche) — see the [mini-glossary](docs/TRANSLATION_GUIDE.md#mini-glossary--project-vocabulary).
 
 ## Why this exists?
 
@@ -69,21 +73,62 @@ Over time the system collects experience from successes and failures, feeds them
 
 ## What makes this different
 
-Do you like Anthropic Outcomes? Organism-core has more sources, HITL- aproval-layer, live-cycle stages and yeah: open-source/ self-hostable! You can paste an Anthropic-Outcomes Markdown rubric straight into a `MarkdownRubricSource` and feed it into the same engine.
+The parts are not the point — the big platforms ship most of them individually. The point is that nobody ships them **fused into one execution path**: DoD research → plan gate → earned autonomy → validation → persistent lessons. organism-core is that path, as a provider-agnostic harness you can read in an afternoon.
 
-Three primitives that the established multi-agent frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) do **not** expose as first-class:
+Three primitives carry the claim (state June 2026, sources dated):
 
-1. **DoD-Recherche as pre-action research.** Before every action with external effect, the system researches the Definition of Done from six prioritized semantic sources (entity profile, lessons, related entities, vector search, domain patterns, user clarification). `related_entities` and `domain_pattern` each ship as two source instances (prefix/tags, tuple/action-only) so the engine emits separate provenance buckets — eight source instances in the default pipeline. Validates the result against the derived criteria after `act()`. Detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md).
+1. **Persistent cross-arm lessons.** Failure insights are distilled, persisted, and re-injected at the next DoD derivation — including **across action types** (`CrossDomainLessonsSource`, the open-source analogue of Anthropic's Dreaming). Rubric-feedback loops are appearing elsewhere (LangChain deepagents RubricMiddleware 06/2026, Anthropic Outcomes beta 05/2026); structured, configurable cross-arm redistribution as a first-class primitive has no other published implementation we know of.
 
-2. **Cross-domain genericity as executable spec.** A CI test asserts that three demo domains (for example architecture, tax, CFO) produce identical pipeline counts. If a contribution accidentally makes the framework domain-specific, the test breaks. No other framework publishes this kind of automated genericity guard.
+2. **Score-driven autonomy per action type.** Effectors earn stages `(a)→(e)` from demonstrated quality (rolling average score) — per action kind, not per agent. This matches what the literature now calls the Digital-Apprentice model (arXiv 2606.04321, June 2026: per-skill tiers, promotion as competence evidence) — published there as concept; this repo ships a tested implementation. The DoD itself is researched from six prioritized semantic sources before every action (detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md)).
 
-3. **Score-driven lifecycle stages.** Effectors promote `(a)→(b)→(c)→(d)→(e)` based on demonstrated quality (avg score over a rolling window) and demote on drift. Stages are not badges — they are earned and revoked automatically.
+3. **Auto-demotion as a security feature.** Granted autonomy is revocable by construction: drift in the score window demotes the action type automatically. Excessive, irrevocable agent autonomy is a core risk in the OWASP Agentic Top 10 (2026) — revocability is this harness's structural answer, not a bolt-on policy.
+
+What we deliberately do **not** claim as differentiation: the plan gate (HITL approval is commodity across OpenAI, LangGraph, Microsoft, Google, and CrewAI, and EU AI Act Art. 14 makes human oversight mandatory anyway — ours is specific only in gating **plan objects with a diff against file truth** rather than raw tool calls), and file-first YAML/Markdown memory (the industry default by 2026). Both are load-bearing building blocks here; neither is why you would pick this repo.
+
+The cross-domain genericity guard — a CI test asserting that three demo domains produce identical pipeline counts — is an **architecture fitness function**, not a market claim: it keeps the framework honest about staying generic while it generalizes out of a real production domain.
+
+Interop notes: an Anthropic-Outcomes Markdown rubric pastes straight into `MarkdownRubricSource` and feeds the same engine. And if you are migrating off a discontinued evaluation stack (OpenAI sunsets Agent Builder and its Evals platform on 2026-11-30), the validation path here — derived criteria, mechanical checks first, LLM judge only where needed, batched judging — is self-hostable and provider-agnostic.
 
 Orthogonal to self-evolving agents (e.g. Hermes Agent): Hermes optimizes a single agent over time through skill generation. organism-core orchestrates multiple tools with per-action quality validation and lifecycle stages. The reasoning agent runs as an effector inside the orchestration; the orchestration enforces gates around it.
 
 **Substrate for structured self-improvement, not a self-modifying agent.** organism-core provides the durable scaffolding — DoD criteria as evaluation rasters, revision strategies as decision branches, lessons and traces as persistent memory, lifecycle stages as performance tracking. The patterns themselves stay human-curated; only the content inside them grows (lessons accumulate, criteria sharpen, stages get earned). Research like the Hyperagent paper (Meta + UBC, 2026) shows emergent self-modification is possible; we deliberately stay one layer below: a stable substrate on which human-curated improvement happens predictably and auditably.
 
 Read-only tools have their own narrow lineage (`organism.query`) that skips the DoD / plan-gate / lifecycle ceremony — details in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Architecture
+
+```mermaid
+flowchart TD
+    A["Action request"] --> B["DoD-Recherche
+    six prioritized sources"]
+    B -->|"clarification needed"| U["Ask the user first"]
+    B --> S{"Lifecycle stage?"}
+    S -->|"(a) manual"| M["Declined — human does it"]
+    S -->|"(b) proposed"| C["PlanGate
+    propose → human approve / reject"]
+    C -->|"approved"| D["act() — Effector"]
+    S -->|"(c)–(e) earned trust"| D
+    D --> E["Validator
+    score vs. derived DoD criteria"]
+    E --> F["Lifecycle state machine
+    promote / demote (a)–(e)"]
+    E -->|"criteria missed"| R["Revision strategies
+    retry / escalate / rollback"]
+    R --> L["LessonsAggregator
+    feeds source #2 next time"]
+    D --> T["TraceStore + EventBus"]
+    T --> K["Cockpit
+    typed render schemas"]
+    Q["Read-only query"] --> QR["QueryRunner
+    organism.query lineage"] --> T
+```
+
+The Skelett ships everything in this diagram except the two pieces
+you fill in: consumers implement **Effectors** (side-effecting
+tools, five-contact contract) and **Queriers** (deterministic reads,
+two-contact contract). DoD research, plan gating, validation,
+lifecycle, lessons, traces, and the Cockpit render layer come from
+the framework.
 
 ## Recent additions
 
@@ -144,7 +189,7 @@ The most recent push lifts organism-core from "skeleton MVP" to
 ## Quick start
 
 ```bash
-git clone git@github.com:organism-core/organism-core.git
+git clone https://github.com/organism-core/organism-core.git
 cd organism-core
 pip install -e ".[dev]"
 
@@ -163,6 +208,8 @@ python -m examples.cockpit_demo
 pytest tests/
 ```
 
+Not yet on PyPI — install from source as shown above.
+
 The three domain demos print a complete pipeline walk to stdout
 (setup → seeding → four steps: PROPOSED flow, CHECKED promotion,
 AUTONOMOUS revision, HITL lesson). All three produce **identical
@@ -174,9 +221,71 @@ bloom, with consumer-facing wiring of the three external-backend
 sources (RelatedEntities / VectorSearch / DomainPattern) — now real
 implementations, no longer stubs.
 
-`cockpit_demo` shows the headless UI Wesen — the Cockpit hovers over
-the orchestrator and stores and emits typed render schemas (DoDView /
+`cockpit_demo` shows the Cockpit Wesen (German "Wesen" ≈
+"entity/being" — the headless UI layer): it hovers over the
+orchestrator and stores and emits typed render schemas (DoDView /
 PlanApprovalView / DriftView / QueryTraceView) for any UI framework.
+
+## Define your own effector
+
+The complete consumer surface in ~40 lines — an effector with the two
+contacts you override, wired into the orchestrator, one full
+propose → approve → apply round trip
+(`tests/examples/test_readme_example.py` keeps it honest in CI):
+
+```python
+import tempfile
+from pathlib import Path
+
+from organism.adapter import BaseEffector
+from organism.dod import DoDEngine, DoDEngineSettings, DoDValidator, default_sources
+from organism.lifecycle import LifecycleManager, LifecycleStore
+from organism.memory import Entity, EntityStore
+from organism.orchestrator import ActionOrchestrator
+from organism.plan_gate import PlanGate, PlanStore
+
+
+class GreetingEffector(BaseEffector):
+    name = "greeting_effector"
+
+    def define_done(self, request, context):
+        return {}  # let the DoD engine derive the criteria
+
+    def act(self, request):
+        return {"greeting_present": True}
+
+
+root = Path(tempfile.mkdtemp())
+entities = EntityStore(root / "entities")
+entities.write("demo-entity", Entity(frontmatter={
+    "dod": {"criteria": [{"name": "greeting_present", "expected": True}]},
+}))
+
+orchestrator = ActionOrchestrator(
+    engine=DoDEngine(
+        sources=default_sources(entity_store=entities),
+        settings=DoDEngineSettings(threshold=0.5),
+    ),
+    validator=DoDValidator(),
+    plan_gate=PlanGate(store=PlanStore(root / "plans")),
+    lifecycle=LifecycleManager(store=LifecycleStore(root / "lifecycle")),
+)
+
+effector = GreetingEffector()
+result = orchestrator.execute(
+    effector, kind="say_hello", request="hello",
+    context={"entity_id": "demo-entity"},
+)
+print(result.status)  # ActionStatus.PROPOSED — waiting for human approval
+
+orchestrator.plan_gate.approve(result.plan.id, decided_by="you")
+applied = orchestrator.apply_approved_plan(result.plan.id, effector)
+print(applied.status, applied.validation.score)  # ActionStatus.APPLIED 1.0
+```
+
+The new `kind` starts in lifecycle stage `(b) proposed`, so every
+action goes through the PlanGate until the score history has earned a
+promotion — that is the quality gate doing its job.
 
 ## Reading paths
 
