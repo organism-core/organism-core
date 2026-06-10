@@ -17,6 +17,7 @@ Konsolidierte und thematische Whitepaper-Skizzen. Public-tauglich, keine interne
 | [`DEMOS.de.md`](DEMOS.de.md) | Cross-Domain-Validierung — 3 Demo-Domains mit identischen Pipeline-Counts | 290 Zeilen |
 | [`PRODUCTION_DEFAULT.md`](PRODUCTION_DEFAULT.md) | Adoption-Lesson — explizites Plan/HITL/Dispatch ist Produktions-Default; der autonome Reflexbogen bleibt Forschungs-Track (englisch) | ~100 Zeilen |
 | [`MCP_DESIGN.md`](MCP_DESIGN.md) | MCP-Audit + stateless-by-design-Constraints für künftige Adapter, ausgerichtet am RC 2026-07-28 (englisch) | ~80 Zeilen |
+| [`RECEIPTED_TRANSFER.md`](RECEIPTED_TRANSFER.md) | Receipted-Transfer-Pattern („Fähre“) — sechs Contract-Elemente für auditierbare Daten-Übergaben zwischen semi-autonomen Tools, mit empirischer 5-Klassen-Failure-Taxonomie (englisch) | ~150 Zeilen |
 
 ## Architektur-Konzepte
 
