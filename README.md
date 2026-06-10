@@ -6,9 +6,9 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 
-**Quality-gated multi-tool AI orchestration.**
+**The Advanced Agentic Harness — quality-gated multi-tool AI orchestration.**
 
-Reference implementation that researches a Definition-of-Done before every action, validates the result against the derived criteria, and drives lifecycle stages from the score history. Delivers an orthogonal quality-gate to single-agent frameworks (e.g. Hermes, LangChain).
+Reference implementation of a pattern set for safe multi-tool agent systems: researches a Definition-of-Done before every action, validates the result against the derived criteria, drives per-action-type autonomy from the score history — and revokes it automatically on drift. In three words: **safety, cross-arm learning, robust harness design.**
 
 ## Industry convergence — May 2026
 
@@ -37,15 +37,11 @@ organism-core is the provider-agnostic open-source implementation at the protoco
   <img src="docs/img/organism_core_star.svg" alt="organism-core Star — six semantic sources, eight source instances, around the action" width="640">
 </p>
 
-> **Looking for collaborators and design partners.**
->
-> **Code collaborators:** organism-core is in alpha, the architecture is settled and the test coverage is real, but real-world consumers are what the framework needs next. If you build agentic systems, run a domain you'd like to test the pattern against, or want to harden the Skelett (German for "skeleton" — the generic core) against a production workload — open an issue, send a PR, or write to `info@brachia.dev`.
->
-> **Design partners (hosted SaaS, private beta):** We're building a hosted SaaS layer on top of organism-core, in private beta with our first production consumer (architecture practice). This public repository is an earlier snapshot — internally we're close to production. The SaaS orchestrates *over* your existing tools (Mail, Tickets, CAD, Invoicing, Docs, …), not a replacement for them. If your team coordinates across multiple tools and you'd discuss a 30-min discovery call about HITL-quality-gated agent workflows on your stack: `info@brachia.dev`.
+> organism-core is a **finished reference pattern set** — self-hostable, Apache 2.0, maintained in preservation mode. A hosted SaaS layer built on it runs in private beta with our first production consumer; the SaaS orchestrates *over* your existing tools (mail, tickets, CAD, invoicing, docs, …), not as a replacement for them. Contact: `info@brachia.dev`.
 
 ## What is this?
 
-An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
+An opinionated pattern set for systems where multiple AI tools work in parallel and consolidate their results into a central truth store. The Skelett (German for "skeleton" — the generic core) ships generic building blocks (DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit). Consumers implement concrete effectors and queriers for their own domain.
 
 A few German-origin terms are kept on purpose as project vocabulary (Skelett, Wesen, DoD-Recherche) — see the [mini-glossary](docs/TRANSLATION_GUIDE.md#mini-glossary--project-vocabulary).
 
@@ -75,15 +71,21 @@ Over time the system collects experience from successes and failures, feeds them
 
 ## What makes this different
 
-Do you like Anthropic Outcomes? Organism-core has more sources, HITL- aproval-layer, live-cycle stages and yeah: open-source/ self-hostable! You can paste an Anthropic-Outcomes Markdown rubric straight into a `MarkdownRubricSource` and feed it into the same engine.
+The parts are not the point — the big platforms ship most of them individually. The point is that nobody ships them **fused into one execution path**: DoD research → plan gate → earned autonomy → validation → persistent lessons. organism-core is that path, as a provider-agnostic harness you can read in an afternoon.
 
-Three primitives that the established multi-agent frameworks (LangGraph, CrewAI, AutoGen, Microsoft Agent Framework, AgentScope) do **not** expose as first-class:
+Three primitives carry the claim (state June 2026, sources dated):
 
-1. **DoD-Recherche (pre-action Definition-of-Done research).** Before every action with external effect, the system researches the Definition of Done from six prioritized semantic sources (entity profile, lessons, related entities, vector search, domain patterns, user clarification). `related_entities` and `domain_pattern` each ship as two source instances (prefix/tags, tuple/action-only) so the engine emits separate provenance buckets — eight source instances in the default pipeline. Validates the result against the derived criteria after `act()`. Detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md).
+1. **Persistent cross-arm lessons.** Failure insights are distilled, persisted, and re-injected at the next DoD derivation — including **across action types** (`CrossDomainLessonsSource`, the open-source analogue of Anthropic's Dreaming). Rubric-feedback loops are appearing elsewhere (LangChain deepagents RubricMiddleware 06/2026, Anthropic Outcomes beta 05/2026); structured, configurable cross-arm redistribution as a first-class primitive has no other published implementation we know of.
 
-2. **Cross-domain genericity as executable spec.** A CI test asserts that three demo domains (for example architecture, tax, CFO) produce identical pipeline counts. If a contribution accidentally makes the framework domain-specific, the test breaks. No other framework publishes this kind of automated genericity guard.
+2. **Score-driven autonomy per action type.** Effectors earn stages `(a)→(e)` from demonstrated quality (rolling average score) — per action kind, not per agent. This matches what the literature now calls the Digital-Apprentice model (arXiv 2606.04321, June 2026: per-skill tiers, promotion as competence evidence) — published there as concept; this repo ships a tested implementation. The DoD itself is researched from six prioritized semantic sources before every action (detail in [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md)).
 
-3. **Score-driven lifecycle stages.** Effectors promote `(a)→(b)→(c)→(d)→(e)` based on demonstrated quality (avg score over a rolling window) and demote on drift. Stages are not badges — they are earned and revoked automatically.
+3. **Auto-demotion as a security feature.** Granted autonomy is revocable by construction: drift in the score window demotes the action type automatically. Excessive, irrevocable agent autonomy is a core risk in the OWASP Agentic Top 10 (2026) — revocability is this harness's structural answer, not a bolt-on policy.
+
+What we deliberately do **not** claim as differentiation: the plan gate (HITL approval is commodity across OpenAI, LangGraph, Microsoft, Google, and CrewAI, and EU AI Act Art. 14 makes human oversight mandatory anyway — ours is specific only in gating **plan objects with a diff against file truth** rather than raw tool calls), and file-first YAML/Markdown memory (the industry default by 2026). Both are load-bearing building blocks here; neither is why you would pick this repo.
+
+The cross-domain genericity guard — a CI test asserting that three demo domains produce identical pipeline counts — is an **architecture fitness function**, not a market claim: it keeps the framework honest about staying generic while it generalizes out of a real production domain.
+
+Interop notes: an Anthropic-Outcomes Markdown rubric pastes straight into `MarkdownRubricSource` and feeds the same engine. And if you are migrating off a discontinued evaluation stack (OpenAI sunsets Agent Builder and its Evals platform on 2026-11-30), the validation path here — derived criteria, mechanical checks first, LLM judge only where needed, batched judging — is self-hostable and provider-agnostic.
 
 Orthogonal to self-evolving agents (e.g. Hermes Agent): Hermes optimizes a single agent over time through skill generation. organism-core orchestrates multiple tools with per-action quality validation and lifecycle stages. The reasoning agent runs as an effector inside the orchestration; the orchestration enforces gates around it.
 

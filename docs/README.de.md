@@ -15,6 +15,8 @@ Konsolidierte und thematische Whitepaper-Skizzen. Public-tauglich, keine interne
 | [`LIFECYCLE.de.md`](LIFECYCLE.de.md) | Plan-Gate + Lifecycle-State-Machine — Stages `(a)→(e)`, Stage-Transitions, ActionOrchestrator | 270 Zeilen |
 | [`OBSERVABILITY.de.md`](OBSERVABILITY.de.md) | Trace + Lessons + EventBus + OTel — vollständige Beobachtungs-Schicht | 330 Zeilen |
 | [`DEMOS.de.md`](DEMOS.de.md) | Cross-Domain-Validierung — 3 Demo-Domains mit identischen Pipeline-Counts | 290 Zeilen |
+| [`PRODUCTION_DEFAULT.md`](PRODUCTION_DEFAULT.md) | Adoption-Lesson — explizites Plan/HITL/Dispatch ist Produktions-Default; der autonome Reflexbogen bleibt Forschungs-Track (englisch) | ~100 Zeilen |
+| [`MCP_DESIGN.md`](MCP_DESIGN.md) | MCP-Audit + stateless-by-design-Constraints für künftige Adapter, ausgerichtet am RC 2026-07-28 (englisch) | ~80 Zeilen |
 
 ## Architektur-Konzepte
 
@@ -38,7 +40,7 @@ Strukturelle Doku in 11 Kapiteln. Jedes ist generisch geschrieben (Phase 6 entke
 
 | Doc | Inhalt |
 |---|---|
-| [`STRATEGIE-EXTRACT.de.md`](STRATEGIE-EXTRACT.md) | Trenn-Vertrag: was ins Skelett gehört, was nicht; Generizitäts-Disziplin |
+| [`STRATEGIE-EXTRACT.de.md`](STRATEGIE-EXTRACT.de.md) | Trenn-Vertrag: was ins Skelett gehört, was nicht; Generizitäts-Disziplin |
 
 ## Lesepfade nach Anwendungsfall
 
