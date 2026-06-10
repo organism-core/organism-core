@@ -63,16 +63,14 @@ Strukturelle Doku in 11 Kapiteln. Jedes ist generisch geschrieben (Phase 6 entke
 - [`M5_WHITEPAPER.de.md`](M5_WHITEPAPER.de.md)
 - [`ARCHITEKTUR/`](ARCHITEKTUR/) alle 11 Kapitel
 - [`OBSERVABILITY.de.md`](OBSERVABILITY.de.md) für OTel-Integration
-- [`STRATEGIE-EXTRACT.de.md`](STRATEGIE-EXTRACT.md) für Governance
+- [`STRATEGIE-EXTRACT.de.md`](STRATEGIE-EXTRACT.de.md) für Governance
 
 ### „Ich will die Implementation lesen"
 
 - Code in [`../src/organism/`](../src/organism/) modul-weise
 - Tests in [`../tests/`](../tests/) als Spec
-- [`../MEMORY.md`](../MEMORY.md) für Phasenstand und Architektur-Entscheidungen
 
 ## Verweise
 
 - [`../README.md`](../README.md) — Repo-Hauptseite mit Quick Start
-- [`../CLAUDE.md`](../CLAUDE.md) — Trenn-Vertrag und Phasenplan (intern)
-- [`../MEMORY.md`](../MEMORY.md) — Living Project Journal mit Architektur-Entscheidungen
+- [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — Contribution- und Trenn-Test-Leitfaden

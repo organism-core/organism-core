@@ -68,12 +68,9 @@ chapter reading paths.
 
 - Code under [`../src/organism/`](../src/organism/) module by module
 - Tests in [`../tests/`](../tests/) as executable spec
-- [`../MEMORY.md`](../MEMORY.md) (German working journal) for phase
-  status and architectural decisions
 
 ## See also
 
 - [`../README.md`](../README.md) — repo entry with quick start
 - [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — contribution and
   separation-test guidance
-- [`../MEMORY.md`](../MEMORY.md) — living project journal (German)
