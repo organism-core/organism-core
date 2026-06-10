@@ -10,17 +10,18 @@
 
 Reference implementation of a pattern set for safe multi-tool agent systems: researches a Definition-of-Done before every action, validates the result against the derived criteria, drives per-action-type autonomy from the score history — and revokes it automatically on drift. In three words: **safety, cross-arm learning, robust harness design.**
 
-## Industry convergence — May 2026
+## Industry context — May → June 2026
 
-Within a single week in May 2026, three top-tier actors published designs that converge on the same meta-problem: the monolithic request-response cycle does not fit the reality of ongoing user attention and continuous agent action.
+The thesis behind this harness played out in public over six weeks.
 
-- **Anthropic Outcomes** (mid-May 2026) — explicit success criteria before action, validation after. Architecturally adjacent to organism-core's M5 DoD-research pattern.
-- **TML Interaction Models** (Thinking Machines Lab, May 12 research preview) — "listen, speak, see, pause" trained into a single network; full-duplex; ~0.4 s response latency. Solves turn-taking at the **architecture layer**.
-- **Google Android Halo** (May 19, I/O) — persistent agent-state indicator in the Android status bar, shipping with Android 17 later this year. Surfaces ongoing agent action at the **OS / UI layer**.
-
-organism-core targets the same meta-problem at a third level — the **protocol layer**. Plan-Gate + Lifecycle + DoD-Engine + the reserved Reentrance pattern (see [`docs/REENTRANCE.md`](docs/REENTRANCE.md)) deliver mid-execution human-in-the-loop with an auditable trail across multiple tools.
-
-The four approaches do not compete; they layer:
+**May 2026** brought the convergence wave: Anthropic **Outcomes**
+(success criteria before action, validation after — the closest
+sibling of the M5 pattern), TML **Interaction Models** (full-duplex
+turn-taking at the model layer), Google **Android Halo** (persistent
+agent-state visibility at the OS layer). organism-core sits on the
+**protocol layer** of that stack — mid-execution human-in-the-loop
+with an auditable trail across multiple tools (see
+[`docs/REENTRANCE.md`](docs/REENTRANCE.md)):
 
 | Layer | Example | What it solves |
 |---|---|---|
@@ -29,7 +30,31 @@ The four approaches do not compete; they layer:
 | **Protocol (orchestration)** | **organism-core** | **mid-execution HITL with audit trail** |
 | UI (OS / app) | Android Halo | persistent agent-state visibility |
 
-organism-core is the provider-agnostic open-source implementation at the protocol layer.
+**June 2026** consolidated the landscape — and sharpened what this
+repo is for:
+
+- **Rubric loops went commodity**: LangChain deepagents shipped
+  **RubricMiddleware** (June 2), Microsoft Foundry **auto-generates
+  evaluation rubrics** (Build, June 3). What none of them ship is
+  rubric *derivation from a prioritized source hierarchy* fused with
+  earned autonomy — exactly this harness's path.
+- **"The Digital Apprentice"** (arXiv 2606.04321, June 3) published
+  the per-skill-tier autonomy model with auto-demotion — as concept.
+  This repo ships a tested implementation.
+- **Regulation and security caught up**: EU AI Act **Art. 14** makes
+  human oversight mandatory, and the **OWASP Agentic Top 10 (2026)**
+  names irrevocable agent autonomy a core risk. Auto-demotion is this
+  harness's structural answer.
+- **The protocol wars ended**: MCP and A2A won, consolidated under
+  the Linux Foundation; the MCP release candidate (final July 28)
+  goes stateless. Our binding adapter constraints:
+  [`docs/MCP_DESIGN.md`](docs/MCP_DESIGN.md).
+- **OpenAI sunsets Agent Builder and its Evals platform**
+  (Nov 30, 2026) — validation/verification needs a self-hostable,
+  provider-agnostic home.
+
+The full, dated landscape map lives in
+[`docs/ARCHITEKTUR/10_LANDSCHAFT.md`](docs/ARCHITEKTUR/10_LANDSCHAFT.md).
 
 **Status**: Feature-complete reference implementation, pre-1.0. See [Phase status](#phase-status) for detail. 899 tests green.
 

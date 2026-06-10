@@ -10,17 +10,18 @@
 
 Referenz-Implementierung eines Pattern-Sets für sichere Multi-Tool-Agent-Systeme: recherchiert vor jeder Aktion eine Definition-of-Done, validiert das Ergebnis gegen die abgeleiteten Kriterien, treibt Autonomie pro Aktionstyp aus dem Score-Verlauf — und entzieht sie bei Drift automatisch. In drei Worten: **Sicherheit, Cross-Arm Learning, robustes Harness-Design.**
 
-## Industrie-Konvergenz — Mai 2026
+## Industrie-Kontext — Mai → Juni 2026
 
-In einer einzigen Woche im Mai 2026 haben drei Top-Tier-Akteure Designs veröffentlicht, die auf dasselbe Meta-Problem zielen: das monolithische Request-Response-Modell passt nicht zur Realität laufender User-Aufmerksamkeit und kontinuierlicher Agent-Aktion.
+Die These hinter diesem Harness hat sich in sechs Wochen öffentlich bestätigt.
 
-- **Anthropic Outcomes** (Mitte Mai 2026) — explizite Erfolgskriterien vor der Aktion, Validierung danach. Architektonisch verwandt mit organism-cores M5-DoD-Recherche-Pattern.
-- **TML Interaction Models** (Thinking Machines Lab, Research-Preview 12. Mai) — „listen, speak, see, pause" im Netz selbst trainiert; full-duplex; ~0,4 s Antwortzeit. Löst Turn-Taking auf der **Architektur-Schicht**.
-- **Google Android Halo** (19. Mai, I/O) — persistenter Agent-Status-Indikator in der Android-Statusbar, ab Android 17 in diesem Jahr. Macht laufende Agent-Aktion sichtbar auf der **OS-/UI-Schicht**.
-
-organism-core adressiert dasselbe Meta-Problem auf einer dritten Ebene — der **Protokoll-Schicht**. Plan-Gate + Lifecycle + DoD-Engine + das reservierte Reentrance-Pattern (siehe [`docs/REENTRANCE.md`](docs/REENTRANCE.md)) liefern Mid-Execution-Human-in-the-Loop mit auditierbarem Trail über mehrere Tools.
-
-Die vier Ansätze konkurrieren nicht, sie liegen übereinander:
+**Mai 2026** brachte die Konvergenz-Welle: Anthropic **Outcomes**
+(Erfolgskriterien vor der Aktion, Validierung danach — der nächste
+Verwandte des M5-Patterns), TML **Interaction Models** (full-duplex
+Turn-Taking auf der Modell-Schicht), Google **Android Halo**
+(persistente Agent-Status-Sichtbarkeit auf der OS-Schicht).
+organism-core sitzt auf der **Protokoll-Schicht** dieses Stacks —
+Mid-Execution-Human-in-the-Loop mit auditierbarem Trail über mehrere
+Tools (siehe [`docs/REENTRANCE.md`](docs/REENTRANCE.md)):
 
 | Schicht | Beispiel | Was es löst |
 |---|---|---|
@@ -29,7 +30,32 @@ Die vier Ansätze konkurrieren nicht, sie liegen übereinander:
 | **Protokoll (Orchestrierung)** | **organism-core** | **Mid-Execution-HITL mit Audit-Trail** |
 | UI (OS / App) | Android Halo | persistente Agent-Status-Sichtbarkeit |
 
-organism-core ist die provider-agnostische Open-Source-Implementierung auf der Protokoll-Schicht.
+**Juni 2026** hat die Landschaft konsolidiert — und geschärft, wofür
+dieses Repo da ist:
+
+- **Rubric-Loops wurden Commodity**: LangChain deepagents shippte
+  **RubricMiddleware** (2. Juni), Microsoft Foundry **generiert
+  Evaluations-Rubriken automatisch** (Build, 3. Juni). Was keiner
+  shippt: Rubric-*Ableitung aus einer priorisierten
+  Quellen-Hierarchie*, verschmolzen mit verdienter Autonomie — genau
+  der Pfad dieses Harness.
+- **„The Digital Apprentice"** (arXiv 2606.04321, 3. Juni)
+  publizierte das per-Skill-Tier-Autonomie-Modell mit Auto-Demotion —
+  als Konzept. Dieses Repo liefert eine getestete Implementierung.
+- **Regulierung und Security zogen nach**: EU AI Act **Art. 14**
+  macht menschliche Aufsicht zur Pflicht, die **OWASP Agentic Top 10
+  (2026)** führen nicht widerrufbare Agent-Autonomie als Kernrisiko.
+  Auto-Demotion ist die strukturelle Antwort dieses Harness.
+- **Die Protokollkriege sind entschieden**: MCP und A2A haben
+  gewonnen, konsolidiert unter der Linux Foundation; der MCP-Release-
+  Candidate (final 28. Juli) wird stateless. Unsere bindenden
+  Adapter-Constraints: [`docs/MCP_DESIGN.md`](docs/MCP_DESIGN.md).
+- **OpenAI beendet Agent Builder und die Evals-Plattform**
+  (30.11.2026) — Validierung/Verifizierung braucht ein self-hostables,
+  provider-agnostisches Zuhause.
+
+Die vollständige, datierte Landschafts-Karte:
+[`docs/ARCHITEKTUR/10_LANDSCHAFT.md`](docs/ARCHITEKTUR/10_LANDSCHAFT.md).
 
 **Status**: Feature-vollständige Referenz-Implementierung, pre-1.0. Details im [Phasenstand](#phasenstand). 899 Tests grün.
 
