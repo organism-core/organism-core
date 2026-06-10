@@ -8,7 +8,7 @@
 
 **The Advanced Agentic Harness — quality-gated multi-tool AI orchestration.**
 
-Referenz-Implementierung eines Pattern-Sets für sichere Multi-Tool-Agent-Systeme: recherchiert vor jeder Aktion eine Definition-of-Done, validiert das Ergebnis gegen die abgeleiteten Kriterien, treibt Autonomie pro Aktionstyp aus dem Score-Verlauf — und entzieht sie bei Drift automatisch. In drei Worten: **Sicherheit, Cross-Arm Learning, robustes Harness-Design.**
+Referenz-Implementierung eines Pattern-Sets für sichere Multi-Tool-Agent-Systeme: recherchiert vor jeder Aktion eine Definition-of-Done, validiert das Ergebnis gegen die abgeleiteten Kriterien, treibt Autonomie pro Aktionstyp aus dem Score-Verlauf — und entzieht sie bei Drift automatisch. -> **Sicherheit, Cross-Arm Learning, robustes Harness-Design.**
 
 ## Industrie-Kontext — Mai → Juni 2026
 
