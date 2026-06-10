@@ -204,6 +204,8 @@ python -m examples.cockpit_demo
 pytest tests/
 ```
 
+Not yet on PyPI — install from source as shown above.
+
 The three domain demos print a complete pipeline walk to stdout
 (setup → seeding → four steps: PROPOSED flow, CHECKED promotion,
 AUTONOMOUS revision, HITL lesson). All three produce **identical
