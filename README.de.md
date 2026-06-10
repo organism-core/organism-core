@@ -209,6 +209,68 @@ Die drei Domain-Demos drucken einen kompletten Pipeline-Walk (Setup → Seeding 
 
 `cockpit_demo` zeigt das headless UI-Wesen — der Cockpit hovert über Orchestrator und Stores und liefert getypte Render-Schemas (DoDView / PlanApprovalView / DriftView / QueryTraceView) an beliebige UI-Frameworks.
 
+## Eigenen Effector definieren
+
+Die komplette Konsumenten-Oberfläche in ~40 Zeilen — ein Effector mit
+den zwei Kontakten die du überschreibst, verdrahtet in den
+Orchestrator, ein voller propose → approve → apply-Roundtrip
+(`tests/examples/test_readme_example.py` hält das Beispiel in CI
+ehrlich):
+
+```python
+import tempfile
+from pathlib import Path
+
+from organism.adapter import BaseEffector
+from organism.dod import DoDEngine, DoDEngineSettings, DoDValidator, default_sources
+from organism.lifecycle import LifecycleManager, LifecycleStore
+from organism.memory import Entity, EntityStore
+from organism.orchestrator import ActionOrchestrator
+from organism.plan_gate import PlanGate, PlanStore
+
+
+class GreetingEffector(BaseEffector):
+    name = "greeting_effector"
+
+    def define_done(self, request, context):
+        return {}  # die DoD-Engine leitet die Kriterien ab
+
+    def act(self, request):
+        return {"greeting_present": True}
+
+
+root = Path(tempfile.mkdtemp())
+entities = EntityStore(root / "entities")
+entities.write("demo-entity", Entity(frontmatter={
+    "dod": {"criteria": [{"name": "greeting_present", "expected": True}]},
+}))
+
+orchestrator = ActionOrchestrator(
+    engine=DoDEngine(
+        sources=default_sources(entity_store=entities),
+        settings=DoDEngineSettings(threshold=0.5),
+    ),
+    validator=DoDValidator(),
+    plan_gate=PlanGate(store=PlanStore(root / "plans")),
+    lifecycle=LifecycleManager(store=LifecycleStore(root / "lifecycle")),
+)
+
+effector = GreetingEffector()
+result = orchestrator.execute(
+    effector, kind="say_hello", request="hello",
+    context={"entity_id": "demo-entity"},
+)
+print(result.status)  # ActionStatus.PROPOSED — wartet auf menschliche Freigabe
+
+orchestrator.plan_gate.approve(result.plan.id, decided_by="you")
+applied = orchestrator.apply_approved_plan(result.plan.id, effector)
+print(applied.status, applied.validation.score)  # ActionStatus.APPLIED 1.0
+```
+
+Der neue `kind` startet in Lifecycle-Stage `(b) proposed` — jede
+Aktion läuft durchs PlanGate, bis die Score-Historie eine Promotion
+verdient hat. Genau das ist der Quality Gate bei der Arbeit.
+
 ## Lesepfad
 
 | Wer du bist | Lies |

@@ -217,6 +217,67 @@ implementations, no longer stubs.
 the orchestrator and stores and emits typed render schemas (DoDView /
 PlanApprovalView / DriftView / QueryTraceView) for any UI framework.
 
+## Define your own effector
+
+The complete consumer surface in ~40 lines — an effector with the two
+contacts you override, wired into the orchestrator, one full
+propose → approve → apply round trip
+(`tests/examples/test_readme_example.py` keeps it honest in CI):
+
+```python
+import tempfile
+from pathlib import Path
+
+from organism.adapter import BaseEffector
+from organism.dod import DoDEngine, DoDEngineSettings, DoDValidator, default_sources
+from organism.lifecycle import LifecycleManager, LifecycleStore
+from organism.memory import Entity, EntityStore
+from organism.orchestrator import ActionOrchestrator
+from organism.plan_gate import PlanGate, PlanStore
+
+
+class GreetingEffector(BaseEffector):
+    name = "greeting_effector"
+
+    def define_done(self, request, context):
+        return {}  # let the DoD engine derive the criteria
+
+    def act(self, request):
+        return {"greeting_present": True}
+
+
+root = Path(tempfile.mkdtemp())
+entities = EntityStore(root / "entities")
+entities.write("demo-entity", Entity(frontmatter={
+    "dod": {"criteria": [{"name": "greeting_present", "expected": True}]},
+}))
+
+orchestrator = ActionOrchestrator(
+    engine=DoDEngine(
+        sources=default_sources(entity_store=entities),
+        settings=DoDEngineSettings(threshold=0.5),
+    ),
+    validator=DoDValidator(),
+    plan_gate=PlanGate(store=PlanStore(root / "plans")),
+    lifecycle=LifecycleManager(store=LifecycleStore(root / "lifecycle")),
+)
+
+effector = GreetingEffector()
+result = orchestrator.execute(
+    effector, kind="say_hello", request="hello",
+    context={"entity_id": "demo-entity"},
+)
+print(result.status)  # ActionStatus.PROPOSED — waiting for human approval
+
+orchestrator.plan_gate.approve(result.plan.id, decided_by="you")
+applied = orchestrator.apply_approved_plan(result.plan.id, effector)
+print(applied.status, applied.validation.score)  # ActionStatus.APPLIED 1.0
+```
+
+The new `kind` starts in lifecycle stage `(b) proposed`, so every
+action goes through the PlanGate until the score history has earned a
+promotion — that is the quality gate doing its job.
+
 ## Reading paths
 
 | Who you are | Read |
