@@ -89,6 +89,41 @@ Das ist **komplementär** zu self-evolving Agents (z.B. Hermes Agent) und zu LLM
 
 Read-only Tools haben eine eigene schmale Lineage (`organism.query`), die DoD/Plan-Gate/Lifecycle-Zeremonie überspringt — Details im [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
+## Architektur
+
+```mermaid
+flowchart TD
+    A["Aktions-Request"] --> B["DoD-Recherche
+    sechs priorisierte Quellen"]
+    B -->|"Klärung nötig"| U["Erst den User fragen"]
+    B --> S{"Lifecycle-Stage?"}
+    S -->|"(a) manual"| M["Abgelehnt — Mensch macht es"]
+    S -->|"(b) proposed"| C["PlanGate
+    propose → Mensch approved / rejected"]
+    C -->|"approved"| D["act() — Effektor"]
+    S -->|"(c)–(e) verdientes Vertrauen"| D
+    D --> E["Validator
+    Score gegen abgeleitete DoD-Kriterien"]
+    E --> F["Lifecycle-State-Machine
+    promote / demote (a)–(e)"]
+    E -->|"Kriterien verfehlt"| R["Revisions-Strategien
+    retry / escalate / rollback"]
+    R --> L["LessonsAggregator
+    speist Quelle 2 beim nächsten Mal"]
+    D --> T["TraceStore + EventBus"]
+    T --> K["Cockpit
+    getypte Render-Schemas"]
+    Q["Read-only Query"] --> QR["QueryRunner
+    organism.query-Lineage"] --> T
+```
+
+Das Skelett liefert alles in diesem Diagramm außer den zwei Bausteinen,
+die du selbst füllst: Konsumenten implementieren **Effektoren**
+(side-effecting Tools, 5-Kontakt-Vertrag) und **Querier**
+(deterministische Reads, 2-Kontakt-Vertrag). DoD-Recherche, Plan-Gating,
+Validierung, Lifecycle, Lessons, Traces und die Cockpit-Render-Schicht
+kommen aus dem Framework.
+
 ## Neuerungen
 
 Der letzte Push hebt organism-core vom „Skelett-MVP" zum „produktions-tauglichen Kern" — drei Gruppen von Ergänzungen:

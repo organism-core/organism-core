@@ -89,6 +89,41 @@ Orthogonal to self-evolving agents (e.g. Hermes Agent): Hermes optimizes a singl
 
 Read-only tools have their own narrow lineage (`organism.query`) that skips the DoD / plan-gate / lifecycle ceremony — details in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
+## Architecture
+
+```mermaid
+flowchart TD
+    A["Action request"] --> B["DoD-Recherche
+    six prioritized sources"]
+    B -->|"clarification needed"| U["Ask the user first"]
+    B --> S{"Lifecycle stage?"}
+    S -->|"(a) manual"| M["Declined — human does it"]
+    S -->|"(b) proposed"| C["PlanGate
+    propose → human approve / reject"]
+    C -->|"approved"| D["act() — Effector"]
+    S -->|"(c)–(e) earned trust"| D
+    D --> E["Validator
+    score vs. derived DoD criteria"]
+    E --> F["Lifecycle state machine
+    promote / demote (a)–(e)"]
+    E -->|"criteria missed"| R["Revision strategies
+    retry / escalate / rollback"]
+    R --> L["LessonsAggregator
+    feeds source #2 next time"]
+    D --> T["TraceStore + EventBus"]
+    T --> K["Cockpit
+    typed render schemas"]
+    Q["Read-only query"] --> QR["QueryRunner
+    organism.query lineage"] --> T
+```
+
+The Skelett ships everything in this diagram except the two pieces
+you fill in: consumers implement **Effectors** (side-effecting
+tools, five-contact contract) and **Queriers** (deterministic reads,
+two-contact contract). DoD research, plan gating, validation,
+lifecycle, lessons, traces, and the Cockpit render layer come from
+the framework.
+
 ## Recent additions
 
 The most recent push lifts organism-core from "skeleton MVP" to
