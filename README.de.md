@@ -8,7 +8,7 @@
 
 **Multi-Tool-KI-Orchestrierung, die ihre Erfolgskriterien recherchiert, bevor sie handelt — sie nach der Aktion validiert — und sich Autonomie aus der eigenen Erfolgsbilanz verdient.**
 
-Bevor ein KI-Tool losläuft, klärt organism-core: *Was heißt „fertig" hier konkret?* Nach der Aktion prüft es das Ergebnis gegen genau diese Kriterien. Tools, die wiederholt sauber arbeiten, dürfen mehr allein machen; Tools, die driften, werden automatisch zurückgestuft. Ein Harness, den man an einem Nachmittag liest — self-hostable, Apache 2.0.
+Bevor ein KI-Tool losläuft, klärt organism-core: *Was heißt „fertig" hier konkret?* Nach der Aktion prüft es das Ergebnis gegen genau diese Kriterien. Tools, die wiederholt sauber arbeiten, dürfen mehr allein machen; Tools, die driften, werden automatisch zurückgestuft. Self-hostable, Apache 2.0.
 
 > **Status:** Feature-vollständige Referenz-Implementierung, pre-1.0. 900 Tests grün. [Phasenstand](#phasenstand).
 >
@@ -20,7 +20,7 @@ Bevor ein KI-Tool losläuft, klärt organism-core: *Was heißt „fertig" hier k
 
 ## Was ist das?
 
-Ein Pattern-Set für Systeme, in denen mehrere KI-Tools parallel arbeiten und ihre Ergebnisse in einen zentralen Wahrheits-Speicher konsolidieren. Das Skelett liefert die generischen Bausteine (DoD-Engine, Lifecycle-State-Machine, Plan-Gate, Lessons-Aggregator, Trace-Store, EventBus, Cockpit). Du implementierst die konkreten Tools für deine Domäne — den Rest bringt das Framework mit.
+Ein Pattern-Set für Systeme, in denen mehrere KI-Tools parallel arbeiten und ihre Ergebnisse in einen zentralen "Wahrheits-Speicher" konsolidieren. Das Skelett liefert die generischen Bausteine (DoD-Engine, Lifecycle-State-Machine, Plan-Gate, Lessons-Aggregator, Trace-Store, EventBus, Cockpit). Du implementierst die konkreten Tools für deine Domäne — den Rest bringt das Framework mit.
 
 ## Warum gibt es das?
 
@@ -41,26 +41,24 @@ Die Antwort sucht das Skelett an sechs Stellen, von der konkreten zur allgemeine
 
 Aus diesen sechs Antworten setzt das Skelett eine konkrete Liste zusammen — die **Definition of Done**. Erst dann startet die KI ihre eigentliche Arbeit. Am Ende prüft das Skelett: Erfüllt das Ergebnis diese Liste?
 
-- **Wenn ja:** das Ergebnis wird abgelegt, der zuständige Tool-Pfad verdient sich ein Stück Vertrauen.
-- **Wenn nein:** das Skelett entscheidet automatisch nach festgelegten Regeln — noch ein Versuch mit anderen Parametern, eine Eskalation an einen Menschen, oder ein sauberer Rückzug.
+- **Wenn ja:** das Ergebnis wird abgelegt, der zuständige Tool-Pfad verdient sich ein Stück Vertrauen für die nächste Anfrage.
+- **Wenn nein:** das Skelett entscheidet automatisch nach festgelegten Regeln — noch ein Versuch mit anderen Parametern, eine Rückmeldung an den User, oder ein sauberer Rückzug.
 
 Über die Zeit sammelt das System Erfahrungen aus Erfolgen und Misserfolgen und schickt sie beim nächsten Mal als Quelle 2 wieder mit ein. Tools, die wiederholt sauber arbeiten, steigen automatisch in eine höhere Vertrauens-Stufe auf; Tools, die zu oft danebenliegen, werden zurückgestuft. Das ist der **Quality Gate**, der organism-core von anderen Multi-Agent-Frameworks unterscheidet: Die KI muss sich ihre Autonomie verdienen, sie bekommt sie nicht geschenkt.
 
-*(Einige deutschstämmige Begriffe bleiben bewusst Projekt-Vokabular — Skelett, Wesen, DoD-Recherche. Siehe das [Mini-Glossar](docs/TRANSLATION_GUIDE.md#mini-glossary--project-vocabulary).)*
-
 ## Was macht das anders
 
-Die Einzelteile sind nicht der Punkt — die großen Plattformen haben die meisten davon. Der Punkt ist, dass niemand sie **zu einem Execution-Pfad verschmolzen** shippt: DoD-Recherche → Plan-Gate → verdiente Autonomie → Validierung → persistente Lessons. organism-core ist genau dieser Pfad, als provider-agnostischer Harness.
+Die Einzelteile sind nicht entscheidend — die großen Plattformen haben die meisten davon. Der Punkt ist, dass niemand sie **zu einem Execution-Pfad verschmolzen** hat: DoD-Recherche → Plan-Gate → verdiente Autonomie → Validierung → persistente Lessons. organism-core ist genau dieser Pfad, als provider-agnostischer Harness.
 
-Drei Primitive tragen den Unterschied:
+Drei Kerne machen den Unterschied:
 
-1. **Persistente Cross-Arm-Lessons.** Was bei einer Verfehlung gelernt wurde, wird destilliert, gespeichert und beim nächsten Mal wieder eingespeist — auch über Aktionstypen hinweg. Rubric-Feedback-Loops gibt es inzwischen viele; eine strukturierte, konfigurierbare Verteilung dieser Lessons über Domänen hinweg als First-Class-Baustein, soweit wir sehen, sonst niemand.
+1. **Persistente Cross-Arm-Lessons.** Was bei einer Verfehlung gelernt wurde, wird destilliert, gespeichert und beim nächsten Mal wieder eingespeist — auch über Aktionstypen hinweg. Rubric-Feedback-Loops gibt es inzwischen viele; eine strukturierte, konfigurierbare Verteilung dieser Lessons über Domänen hinweg - als First-Class-Baustein - sonst anscheindend niemand.
 
 2. **Verdiente Autonomie pro Aktionstyp.** Tools steigen über demonstrierte Qualität durch fünf Vertrauens-Stufen `(a)→(e)` — pro Aktionstyp, nicht pro Agent. Die Erfolgskriterien dafür werden vor jeder Aktion frisch recherchiert, nicht einmal fest verdrahtet.
 
 3. **Auto-Demotion als Sicherheits-Feature.** Verliehene Autonomie ist per Konstruktion widerrufbar: Sinkt die Qualität im Score-Fenster, wird der Aktionstyp automatisch zurückgestuft. Das ist kein nachgerüstetes Policy-Feature, sondern in die Architektur eingebaut.
 
-*(Wie sich das in die Industrie-Landschaft 2026 einordnet — Anthropic Outcomes, EU AI Act Art. 14, OWASP Agentic Top 10, MCP/A2A, die einschlägige Forschung — steht in [`docs/ARCHITEKTUR/10_LANDSCHAFT.md`](docs/ARCHITEKTUR/10_LANDSCHAFT.md), mit datierten Quellen.)*
+*(Wie sich das in die AI-Landschaft 2026 abbildet — Anthropic Outcomes, EU AI Act Art. 14, OWASP Agentic Top 10, MCP/A2A, die einschlägige Forschung — steht in [`docs/ARCHITEKTUR/10_LANDSCHAFT.md`](docs/ARCHITEKTUR/10_LANDSCHAFT.md), mit datierten Quellen.)*
 
 ## Architektur
 
@@ -90,7 +88,7 @@ flowchart TD
     organism.query-Lineage"] --> T
 ```
 
-Das Skelett liefert alles in diesem Diagramm außer den zwei Bausteinen, die du selbst füllst: **Effektoren** (side-effecting Tools, 5-Kontakt-Vertrag) und **Querier** (deterministische Reads, 2-Kontakt-Vertrag).
+Das Skelett liefert alles in diesem Diagramm - außer den zwei Bausteinen, die du selbst füllst: **Effektoren** (side-effecting Tools, 5-Kontakt-Vertrag) und **Querier** (deterministische Reads, 2-Kontakt-Vertrag).
 
 ## Quick Start
 
@@ -105,11 +103,11 @@ python -m examples.cockpit_demo      # der headless UI-Layer
 pytest tests/
 ```
 
-Noch nicht auf PyPI — Installation aus dem Quellcode wie oben gezeigt. Die drei Domain-Demos drucken einen vollen Pipeline-Walk und produzieren **identische Pipeline-Counts** — Cross-Domain-Verifikation als executable spec.
+Noch nicht auf PyPI — Installation aus dem Quellcode wie oben gezeigt. Die drei Domain-Demos erstellen einen vollen Pipeline-Walk und produzieren **identische Pipeline-Counts** — Cross-Domain-Verifikation als executable spec.
 
 ## Eigenen Effector definieren
 
-Die komplette Konsumenten-Oberfläche in ~40 Zeilen — ein Effector mit den zwei Kontakten die du überschreibst, verdrahtet in den Orchestrator, ein voller propose → approve → apply-Roundtrip (`tests/examples/test_readme_example.py` hält das Beispiel in CI ehrlich):
+Die komplette Konsumenten-Oberfläche in ~40 Zeilen — ein Effector mit den zwei Kontakten die du überschreibst, verdrahtet in den Orchestrator, ein voller propose → approve → apply-Roundtrip (`tests/examples/test_readme_example.py` hält das Beispiel in CI):
 
 ```python
 import tempfile
@@ -165,7 +163,7 @@ Der neue `kind` startet in Lifecycle-Stage `(b) proposed` — jede Aktion läuft
 
 ## Tiefer einsteigen
 
-| Du willst | Lies |
+| Lies |
 |---|---|
 | Die ganze Idee in einem Dokument | [`docs/M5_WHITEPAPER.de.md`](docs/M5_WHITEPAPER.de.md) |
 | Engine, Lifecycle, Observability im Detail | [`docs/STAR.de.md`](docs/STAR.de.md) · [`docs/LIFECYCLE.de.md`](docs/LIFECYCLE.de.md) · [`docs/OBSERVABILITY.de.md`](docs/OBSERVABILITY.de.md) |
@@ -205,7 +203,7 @@ Geplante Erweiterungen (ohne Termine): dLLM-Integration · Reentrance-Trigger 1�
 pytest tests/
 ```
 
-900 Tests grün, darunter zwei Trenn-Test-Wächter (Action- und Query-Seite), die identische Counts über alle drei Demo-Domains erzwingen, und ein Wächter, der das README-Beispiel gegen die echte API kompilierbar hält.
+900 Tests grün (auch Action- und Query-Seite), die identische Counts über alle drei Demo-Domains erzwingen, und ein Wächter, der das README-Beispiel gegen die echte API kompilierbar hält.
 
 ## License
 
