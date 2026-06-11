@@ -8,7 +8,7 @@
 
 **Multi-tool AI orchestration that researches its success criteria before it acts — validates against them afterwards — and earns autonomy from its own track record.**
 
-Before an AI tool runs, organism-core settles one question: *what does "done" actually mean here?* After the action, it checks the result against exactly those criteria. Tools that repeatedly deliver get to do more on their own; tools that drift are demoted automatically. A harness you can read in an afternoon — self-hostable, Apache 2.0.
+Before an AI tool runs, organism-core settles one question: *what does "done" actually mean here?* After the action, it checks the result against exactly those criteria. Tools that repeatedly deliver get to do more on their own; tools that drift are demoted automatically. Self-hostable, Apache 2.0.
 
 > **Status:** Feature-complete reference implementation, pre-1.0. 900 tests green. [Phase status](#phase-status).
 >
@@ -20,7 +20,7 @@ Before an AI tool runs, organism-core settles one question: *what does "done" ac
 
 ## What is this?
 
-A pattern set for systems where several AI tools work in parallel and consolidate their results into one central truth store. The Skelett (German for "skeleton" — the generic core) ships the generic building blocks: DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit. You implement the concrete tools for your domain — the framework brings everything else.
+A pattern set for systems where several AI tools work in parallel and consolidate their results into one central "truth store". The Skelett (German for "skeleton" — the generic core) ships the generic building blocks: DoD engine, lifecycle state machine, plan gate, lessons aggregator, trace store, event bus, Cockpit. You implement the concrete tools for your domain — the framework brings everything else.
 
 ## Why does this exist?
 
@@ -41,26 +41,24 @@ It looks for the answer in six places, from the specific to the general:
 
 From those six answers the Skelett assembles a concrete list — the **Definition of Done**. Only then does the AI start its actual work. At the end, the Skelett checks: does the result satisfy that list?
 
-- **If yes:** the result is stored, and the responsible tool path earns a piece of trust.
-- **If no:** the Skelett decides along configured rules — another attempt with different parameters, an escalation to a human, or a clean rollback.
+- **If yes:** the result is stored, and the responsible tool path earns a piece of trust for the next request.
+- **If no:** the Skelett decides along configured rules — another attempt with different parameters, a report back to the user, or a clean rollback.
 
 Over time the system collects experience from successes and failures and feeds it back in as source #2 the next time. Tools that repeatedly deliver rise into a higher trust stage automatically; tools that miss too often get demoted. That is the **quality gate** that sets organism-core apart from other multi-agent frameworks: the AI has to earn its autonomy — it doesn't get it for free.
 
-*(A few German-origin terms stay on purpose as project vocabulary — Skelett, Wesen, DoD-Recherche. See the [mini-glossary](docs/TRANSLATION_GUIDE.md#mini-glossary--project-vocabulary).)*
-
 ## What makes this different
 
-The parts are not the point — the big platforms have most of them. The point is that nobody ships them **fused into one execution path**: DoD research → plan gate → earned autonomy → validation → persistent lessons. organism-core is exactly that path, as a provider-agnostic harness.
+The individual parts are not what matters — the big platforms have most of them. The point is that nobody has **fused them into one execution path**: DoD research → plan gate → earned autonomy → validation → persistent lessons. organism-core is exactly that path, as a provider-agnostic harness.
 
-Three primitives carry the difference:
+Three cores make the difference:
 
-1. **Persistent cross-arm lessons.** What a failure taught the system gets distilled, stored, and fed back in next time — including across action types. Rubric feedback loops are everywhere by now; a structured, configurable redistribution of those lessons across domains as a first-class building block is, as far as we can see, shipped by no one else.
+1. **Persistent cross-arm lessons.** What a failure taught the system gets distilled, stored, and fed back in next time — including across action types. Rubric feedback loops are everywhere by now; a structured, configurable redistribution of those lessons across domains - as a first-class building block - apparently no one else.
 
 2. **Earned autonomy per action type.** Tools climb five trust stages `(a)→(e)` through demonstrated quality — per action type, not per agent. And the success criteria they are measured against are researched fresh before every action, not hard-wired once.
 
 3. **Auto-demotion as a security feature.** Granted autonomy is revocable by construction: if quality drops inside the score window, the action type is demoted automatically. Not a bolted-on policy — built into the architecture.
 
-*(How this sits in the 2026 industry landscape — Anthropic Outcomes, EU AI Act Art. 14, OWASP Agentic Top 10, MCP/A2A, the relevant research — is in [`docs/ARCHITEKTUR/10_LANDSCHAFT.md`](docs/ARCHITEKTUR/10_LANDSCHAFT.md), with dated sources.)*
+*(How this maps onto the 2026 AI landscape — Anthropic Outcomes, EU AI Act Art. 14, OWASP Agentic Top 10, MCP/A2A, the relevant research — is in [`docs/ARCHITEKTUR/10_LANDSCHAFT.md`](docs/ARCHITEKTUR/10_LANDSCHAFT.md), with dated sources.)*
 
 ## Architecture
 
@@ -90,7 +88,7 @@ flowchart TD
     organism.query lineage"] --> T
 ```
 
-The Skelett ships everything in this diagram except the two pieces you fill in: **Effectors** (side-effecting tools, five-contact contract) and **Queriers** (deterministic reads, two-contact contract).
+The Skelett ships everything in this diagram - except the two pieces you fill in: **Effectors** (side-effecting tools, five-contact contract) and **Queriers** (deterministic reads, two-contact contract).
 
 ## Quick start
 
@@ -105,11 +103,11 @@ python -m examples.cockpit_demo      # the headless UI layer
 pytest tests/
 ```
 
-Not yet on PyPI — install from source as shown above. The three domain demos print a full pipeline walk and produce **identical pipeline counts** — cross-domain verification as executable spec.
+Not yet on PyPI — install from source as shown above. The three domain demos generate a full pipeline walk and produce **identical pipeline counts** — cross-domain verification as executable spec.
 
 ## Define your own effector
 
-The complete consumer surface in ~40 lines — an effector with the two contacts you override, wired into the orchestrator, one full propose → approve → apply round trip (`tests/examples/test_readme_example.py` keeps it honest in CI):
+The complete consumer surface in ~40 lines — an effector with the two contacts you override, wired into the orchestrator, one full propose → approve → apply round trip (`tests/examples/test_readme_example.py` guards the example in CI):
 
 ```python
 import tempfile
@@ -165,7 +163,7 @@ The new `kind` starts in lifecycle stage `(b) proposed`, so every action goes th
 
 ## Going deeper
 
-| You want | Read |
+| | Read |
 |---|---|
 | The whole idea in one document | [`docs/M5_WHITEPAPER.md`](docs/M5_WHITEPAPER.md) |
 | Engine, lifecycle, observability in depth | [`docs/STAR.md`](docs/STAR.md) · [`docs/LIFECYCLE.md`](docs/LIFECYCLE.md) · [`docs/OBSERVABILITY.md`](docs/OBSERVABILITY.md) |
@@ -205,7 +203,7 @@ Planned extensions (no dates): dLLM integration · reentrance triggers 1–2 ([`
 pytest tests/
 ```
 
-900 tests green, including two separation-test guards (action side and query side) that force all three demo domains to produce identical counts, and a guard that keeps the README example compiling against the real API.
+900 tests green (action and query side included), forcing identical counts across all three demo domains, plus a guard that keeps the README example compiling against the real API.
 
 ## License
 

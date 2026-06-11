@@ -52,7 +52,7 @@ Die Einzelteile sind nicht entscheidend — die großen Plattformen haben die me
 
 Drei Kerne machen den Unterschied:
 
-1. **Persistente Cross-Arm-Lessons.** Was bei einer Verfehlung gelernt wurde, wird destilliert, gespeichert und beim nächsten Mal wieder eingespeist — auch über Aktionstypen hinweg. Rubric-Feedback-Loops gibt es inzwischen viele; eine strukturierte, konfigurierbare Verteilung dieser Lessons über Domänen hinweg - als First-Class-Baustein - sonst anscheindend niemand.
+1. **Persistente Cross-Arm-Lessons.** Was bei einer Verfehlung gelernt wurde, wird destilliert, gespeichert und beim nächsten Mal wieder eingespeist — auch über Aktionstypen hinweg. Rubric-Feedback-Loops gibt es inzwischen viele; eine strukturierte, konfigurierbare Verteilung dieser Lessons über Domänen hinweg - als First-Class-Baustein - sonst anscheinend niemand.
 
 2. **Verdiente Autonomie pro Aktionstyp.** Tools steigen über demonstrierte Qualität durch fünf Vertrauens-Stufen `(a)→(e)` — pro Aktionstyp, nicht pro Agent. Die Erfolgskriterien dafür werden vor jeder Aktion frisch recherchiert, nicht einmal fest verdrahtet.
 
@@ -163,7 +163,7 @@ Der neue `kind` startet in Lifecycle-Stage `(b) proposed` — jede Aktion läuft
 
 ## Tiefer einsteigen
 
-| Lies |
+| | Lies |
 |---|---|
 | Die ganze Idee in einem Dokument | [`docs/M5_WHITEPAPER.de.md`](docs/M5_WHITEPAPER.de.md) |
 | Engine, Lifecycle, Observability im Detail | [`docs/STAR.de.md`](docs/STAR.de.md) · [`docs/LIFECYCLE.de.md`](docs/LIFECYCLE.de.md) · [`docs/OBSERVABILITY.de.md`](docs/OBSERVABILITY.de.md) |
