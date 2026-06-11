@@ -154,8 +154,9 @@ The Skelett is successful when:
 
 ## License and ownership
 
-- **Skelett repo** (`organism-core`): private during development;
-  Apache License 2.0 as the default on public release.
+- **Skelett repo** (`organism-core`): GNU AGPL-3.0, dual-licensed
+  (commercial exception available via `info@brachia.dev`). Apache 2.0
+  up to v0.2.0; AGPL-3.0 from v0.3.0 onward.
 - **Consumer repos**: each its own license choice. They consume
   `organism-core` as a dependency or via code adoption.
 

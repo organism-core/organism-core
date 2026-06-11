@@ -85,8 +85,19 @@ A hosted approval gate & audit-report layer on top of the framework
 — EU-hosted, GDPR-first, aimed at EU AI Act Art. 14 evidence — is
 under evaluation. No dates, no pricing; we are measuring demand
 before building. Waitlist: [brachia.dev](https://brachia.dev) ·
-`info@brachia.dev`. The framework itself stays Apache 2.0 and
+`info@brachia.dev`. The framework itself stays AGPL-3.0 and
 self-hostable.
+
+## License change
+
+From this release, organism-core is licensed under **GNU AGPL-3.0**
+(was Apache 2.0 up to v0.2.0), **dual-licensed**: free under the
+AGPL for everyone, with a commercial exception available for
+closed-source / SaaS use that doesn't want the network-copyleft
+obligation (`info@brachia.dev`). The open-source path stays open
+permanently — the standard sell-exceptions model, made possible by
+the contributor CLA. See [`LICENSE`](https://github.com/organism-core/organism-core/blob/main/LICENSE)
+and the README license section.
 
 ---
 

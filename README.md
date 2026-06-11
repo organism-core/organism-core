@@ -3,12 +3,12 @@
 # organism-core
 
 [![CI](https://github.com/organism-core/organism-core/actions/workflows/ci.yml/badge.svg)](https://github.com/organism-core/organism-core/actions/workflows/ci.yml)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 
 **Multi-tool AI orchestration that researches its success criteria before it acts — validates against them afterwards — and earns autonomy from its own track record.**
 
-Before an AI tool runs, organism-core settles one question: *what does "done" actually mean here?* After the action, it checks the result against exactly those criteria. Tools that repeatedly deliver get to do more on their own; tools that drift are demoted automatically. Self-hostable, Apache 2.0.
+Before an AI tool runs, organism-core settles one question: *what does "done" actually mean here?* After the action, it checks the result against exactly those criteria. Tools that repeatedly deliver get to do more on their own; tools that drift are demoted automatically. Self-hostable, AGPL-3.0.
 
 > **Status:** Feature-complete reference implementation, pre-1.0. 900 tests green. [Phase status](#phase-status).
 >
@@ -207,7 +207,11 @@ pytest tests/
 
 ## License
 
-Apache License 2.0 — see [`LICENSE`](LICENSE). Contributions are accepted under the project's CLA (see [`CLA.md`](CLA.md)); you keep copyright to your contribution.
+**GNU AGPL-3.0** — see [`LICENSE`](LICENSE). Free to use, self-host, and modify; if you run a modified version as a network service, the AGPL asks you to share your changes under the same license.
+
+**Dual-licensed.** Building a closed-source or SaaS product on top and don't want the AGPL's network-copyleft obligations? A commercial exception license is available — write to `info@brachia.dev`. (The framework stays AGPL-3.0 and free for everyone; this is the standard sell-exceptions model.)
+
+Contributions are accepted under the project's CLA (see [`CLA.md`](CLA.md)); you keep copyright to your contribution and grant the maintainer the rights that make the dual-license possible.
 
 ---
 

@@ -3,12 +3,12 @@
 # organism-core
 
 [![CI](https://github.com/organism-core/organism-core/actions/workflows/ci.yml/badge.svg)](https://github.com/organism-core/organism-core/actions/workflows/ci.yml)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](pyproject.toml)
 
 **Multi-Tool-KI-Orchestrierung, die ihre Erfolgskriterien recherchiert, bevor sie handelt — sie nach der Aktion validiert — und sich Autonomie aus der eigenen Erfolgsbilanz verdient.**
 
-Bevor ein KI-Tool losläuft, klärt organism-core: *Was heißt „fertig" hier konkret?* Nach der Aktion prüft es das Ergebnis gegen genau diese Kriterien. Tools, die wiederholt sauber arbeiten, dürfen mehr allein machen; Tools, die driften, werden automatisch zurückgestuft. Self-hostable, Apache 2.0.
+Bevor ein KI-Tool losläuft, klärt organism-core: *Was heißt „fertig" hier konkret?* Nach der Aktion prüft es das Ergebnis gegen genau diese Kriterien. Tools, die wiederholt sauber arbeiten, dürfen mehr allein machen; Tools, die driften, werden automatisch zurückgestuft. Self-hostable, AGPL-3.0.
 
 > **Status:** Feature-vollständige Referenz-Implementierung, pre-1.0. 900 Tests grün. [Phasenstand](#phasenstand).
 >
@@ -207,7 +207,11 @@ pytest tests/
 
 ## License
 
-Apache License 2.0 — siehe [`LICENSE`](LICENSE). Contributions laufen unter dem CLA des Projekts (siehe [`CLA.md`](CLA.md)); das Copyright an deinem Beitrag bleibt bei dir.
+**GNU AGPL-3.0** — siehe [`LICENSE`](LICENSE). Frei nutzbar, self-hostable und modifizierbar; wer eine veränderte Version als Netzwerk-Dienst betreibt, gibt seine Änderungen nach AGPL unter derselben Lizenz weiter.
+
+**Dual-License.** Du baust ein Closed-Source- oder SaaS-Produkt darauf und willst die Netzwerk-Copyleft-Pflicht der AGPL nicht? Eine kommerzielle Ausnahme-Lizenz ist verfügbar — schreib an `info@brachia.dev`. (Das Framework bleibt AGPL-3.0 und für alle frei; klassisches sell-exceptions-Modell.)
+
+Contributions laufen unter dem CLA des Projekts (siehe [`CLA.md`](CLA.md)); das Copyright an deinem Beitrag bleibt bei dir, du gewährst dem Maintainer die Rechte, die die Dual-License ermöglichen.
 
 ---
 

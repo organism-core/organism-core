@@ -111,7 +111,7 @@ Das Skelett ist erfolgreich wenn:
 
 ## Lizenz und Eigentum
 
-- **Skelett-Repo** (`organism-core`): privat während Entwicklung; bei Public-Schaltung Apache License 2.0 als Default-Wahl.
+- **Skelett-Repo** (`organism-core`): GNU AGPL-3.0, dual-lizenziert (kommerzielle Ausnahme via `info@brachia.dev`). Apache 2.0 bis v0.2.0; ab v0.3.0 AGPL-3.0.
 - **Konsumenten-Repos**: jeweils eigene Lizenz-Wahl. Konsumieren `organism-core` als Dependency oder via Code-Adopt.
 
 Niemand außerhalb der Konsumenten-Organisation bekommt Zugriff auf konsumenten-spezifische Daten — das ist Voraussetzung für die file-first-Memory-Philosophie.

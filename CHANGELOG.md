@@ -128,11 +128,16 @@ executable cross-domain genericity spec.
 
 ### License & contribution
 
-- Apache License 2.0.
+- GNU AGPL-3.0, dual-licensed: free under the AGPL for everyone, with
+  a commercial exception license available for closed-source / SaaS
+  use (`info@brachia.dev`). The framework stays AGPL-3.0 and free.
+  (Initial public releases up to and including v0.2.0 were published
+  under Apache 2.0; from v0.3.0 onward the license is AGPL-3.0.)
 - Contributor License Agreement: see [`CLA.md`](CLA.md). You keep
   copyright to your contribution; the project gets the rights needed
-  to ship and (if ever necessary) re-license while always keeping at
-  least one OSI-approved license open.
+  to ship and re-license while always keeping at least one
+  OSI-approved license open — which is what makes the dual-license
+  possible.
 
 ### Known limitations (deliberate scope cuts for `v0.1.0`)
 
